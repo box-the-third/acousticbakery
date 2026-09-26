@@ -3,14 +3,15 @@
 import Image from "next/image";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { asset } from "@/lib/asset";
 
 const IMAGES = [
-  "/images/pack-bread.webp",
-  "/images/pack-box.webp",
-  "/images/pack-cookie.webp",
-  "/images/pack-tin.webp",
-  "/images/pack-baguette.webp",
-  "/images/pack-croissant.webp",
+  asset("/images/pack-bread.webp"),
+  asset("/images/pack-box.webp"),
+  asset("/images/pack-cookie.webp"),
+  asset("/images/pack-tin.webp"),
+  asset("/images/pack-baguette.webp"),
+  asset("/images/pack-croissant.webp"),
 ];
 
 /** A slow, continuous marquee of the brand's packaging, taken from the brand files. */

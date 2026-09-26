@@ -134,7 +134,7 @@ html.is-switching-locale body {
   }
 
   .pattern-isotype {
-    background-image: url("/brand/isotype-white.webp");
+    background-image: url("../assets/isotype-white.webp");
     background-size: 150px auto;
     background-repeat: space;
   }

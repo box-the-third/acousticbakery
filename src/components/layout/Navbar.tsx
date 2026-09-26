@@ -5,6 +5,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { LanguageSwitch } from "./LanguageSwitch";
+import { asset } from "@/lib/asset";
 
 export function Navbar() {
   const { t, dir } = useLanguage();
@@ -70,7 +71,7 @@ export function Navbar() {
         >
           <a href="#top" className="shrink-0" aria-label="Acoustic Bakery & Patisserie">
             <Image
-              src="/brand/logo-slate.webp"
+              src={asset("/brand/logo-slate.webp")}
               alt="Acoustic Bakery & Patisserie"
               width={900}
               height={86}
@@ -152,7 +153,7 @@ export function Navbar() {
               />
               <div className="relative flex h-20 shrink-0 items-center justify-between px-6">
                 <Image
-                  src="/brand/logo-white.webp"
+                  src={asset("/brand/logo-white.webp")}
                   alt=""
                   width={900}
                   height={86}

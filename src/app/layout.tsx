@@ -3,6 +3,7 @@ import { Albert_Sans, IBM_Plex_Sans_Arabic, Readex_Pro } from "next/font/google"
 import localFont from "next/font/local";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { asset } from "@/lib/asset";
 import "./globals.css";
 
 const vonca = localFont({
@@ -40,7 +41,7 @@ const plexArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://acousticbakery.sa"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://acousticbakery.sa"),
   title: "Acoustic | Bakery & Patisserie in Riyadh",
   description:
     "Acoustic Bakery & Patisserie on Olaya Street, Riyadh. Slow-fermented breads, handcrafted French pastry and specialty coffee.",
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Acoustic | Bakery & Patisserie",
     description: "Everyday moments deserve exceptional quality. Olaya Street, Riyadh.",
-    images: ["/images/story-flour.webp"],
+    images: [asset("/images/story-flour.webp")],
     locale: "en_US",
     alternateLocale: ["ar_SA"],
     type: "website",

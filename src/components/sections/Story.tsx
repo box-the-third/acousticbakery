@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { asset } from "@/lib/asset";
 
 export function Story() {
   const { t } = useLanguage();
@@ -23,7 +24,7 @@ export function Story() {
           >
             <m.div style={{ y: imageY }} className="absolute -inset-y-[10%] inset-x-0">
               <Image
-                src="/images/story-flour.webp"
+                src={asset("/images/story-flour.webp")}
                 alt="A baker dusting flour over fresh dough"
                 fill
                 sizes="(min-width: 1024px) 40vw, 90vw"

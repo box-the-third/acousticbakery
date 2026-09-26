@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { asset } from "@/lib/asset";
 
 type IsotypeProps = {
   tone?: "slate" | "white" | "gold";
@@ -10,7 +11,7 @@ type IsotypeProps = {
 export function Isotype({ tone = "slate", className, priority }: IsotypeProps) {
   return (
     <Image
-      src={`/brand/isotype-${tone}.webp`}
+      src={asset(`/brand/isotype-${tone}.webp`)}
       alt=""
       aria-hidden
       width={600}

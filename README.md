@@ -17,7 +17,19 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. Production build: `npm run build && npm start`.
+Open http://localhost:3000. `npm run build` writes a static site to `out/`.
+
+## Deploying to GitHub Pages
+
+`.github/workflows/deploy.yml` builds and publishes the site on every push to `main`.
+
+1. Push the repo to GitHub.
+2. In the repo, open **Settings > Pages** and set **Source** to **GitHub Actions**.
+3. Push to `main` (or run the workflow manually from the **Actions** tab).
+
+The workflow passes the Pages base path (for example `/acousticbakery`) and site URL to the
+build, so asset links work both on `username.github.io/repo` and on a custom domain.
+Images from `public/` must be referenced through `asset()` in `src/lib/asset.ts` so they get that prefix.
 
 ## Structure
 

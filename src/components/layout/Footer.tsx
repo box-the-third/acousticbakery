@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { MAPS_URL } from "@/components/sections/Visit";
+import { asset } from "@/lib/asset";
 
 export function Footer() {
   const { t } = useLanguage();
@@ -22,7 +23,7 @@ export function Footer() {
       <div className="container-page py-16 sm:py-20">
         <Reveal>
           <Image
-            src="/brand/logo-white.webp"
+            src={asset("/brand/logo-white.webp")}
             alt="Acoustic Bakery & Patisserie"
             width={900}
             height={86}
