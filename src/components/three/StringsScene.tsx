@@ -9,11 +9,11 @@ import {
   CylinderGeometry,
   DirectionalLight,
   Group,
+  HemisphereLight,
   Mesh,
   MeshStandardMaterial,
   PerspectiveCamera,
   Plane,
-  PMREMGenerator,
   Points,
   PointsMaterial,
   Raycaster,
@@ -24,7 +24,6 @@ import {
   Vector3,
   WebGLRenderer,
 } from "three";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
 /**
  * A sculptural, playable take on the Acoustic isotype: the sound-hole circle,
@@ -95,13 +94,14 @@ export default function StringsScene({ onReady }: { onReady?: () => void }) {
 
     let renderer: WebGLRenderer;
     try {
-      renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" });
+      renderer = new WebGLRenderer({ antialias: window.devicePixelRatio < 2, alpha: true, powerPreference: "low-power" });
     } catch {
       return; // No WebGL: the static isotype placeholder simply stays visible.
     }
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, coarsePointer ? 1.5 : 1.75));
     renderer.toneMapping = ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.05;
     renderer.domElement.style.touchAction = "pan-y";
@@ -109,22 +109,23 @@ export default function StringsScene({ onReady }: { onReady?: () => void }) {
     mount.appendChild(renderer.domElement);
 
     const scene = new Scene();
-    const pmrem = new PMREMGenerator(renderer);
-    const envTexture = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-    scene.environment = envTexture;
-    scene.environmentIntensity = 0.9;
 
     const camera = new PerspectiveCamera(30, 1, 0.1, 60);
     camera.position.set(0, 0, 10);
 
-    const key = new DirectionalLight(0xfff4e2, 1.6);
+    // Plain lights instead of a generated environment map: same satin-metal look,
+    // without the heavy one-off GPU work that stalls phones on load.
+    const ambient = new HemisphereLight(0xfbfaf8, 0x9aa7ad, 1.6);
+    const key = new DirectionalLight(0xfff4e2, 2.4);
     key.position.set(-3, 4, 5);
-    const rim = new DirectionalLight(0xb1bec6, 1.2);
+    const fill = new DirectionalLight(0xfff8ee, 0.9);
+    fill.position.set(3, 1, 4);
+    const rim = new DirectionalLight(0xb1bec6, 1.4);
     rim.position.set(4, -2, -3);
-    scene.add(key, rim);
+    scene.add(ambient, key, fill, rim);
 
-    const slate = new MeshStandardMaterial({ color: SLATE, metalness: 0.55, roughness: 0.34 });
-    const brass = new MeshStandardMaterial({ color: 0xc8ae72, metalness: 0.9, roughness: 0.24 });
+    const slate = new MeshStandardMaterial({ color: SLATE, metalness: 0.25, roughness: 0.42 });
+    const brass = new MeshStandardMaterial({ color: 0xc8ae72, metalness: 0.45, roughness: 0.3 });
 
     const rig = new Group(); // receives pointer tilt and idle float
     const mark = new Group(); // the isotype itself, centred on the origin
@@ -132,11 +133,11 @@ export default function StringsScene({ onReady }: { onReady?: () => void }) {
     rig.add(mark);
     scene.add(rig);
 
-    const disposables: { dispose: () => void }[] = [slate, brass, envTexture, pmrem];
+    const disposables: { dispose: () => void }[] = [slate, brass];
 
     // Sound-hole circle, opened on the right where the strings pass through.
     const gap = 0.42;
-    const ringGeometry = new TorusGeometry(1, STROKE, 16, 180, Math.PI * 2 - gap * 2);
+    const ringGeometry = new TorusGeometry(1, STROKE, 12, 120, Math.PI * 2 - gap * 2);
     const ring = new Mesh(ringGeometry, slate);
     ring.rotation.z = gap;
     mark.add(ring);
@@ -151,7 +152,7 @@ export default function StringsScene({ onReady }: { onReady?: () => void }) {
       disposables.push(geometry);
     }
 
-    const dotGeometry = new SphereGeometry(0.075, 24, 16);
+    const dotGeometry = new SphereGeometry(0.075, 20, 12);
     disposables.push(dotGeometry);
     for (const dot of DOTS) {
       const mesh = new Mesh(dotGeometry, slate);
@@ -161,7 +162,7 @@ export default function StringsScene({ onReady }: { onReady?: () => void }) {
 
     const strings: StringState[] = STRINGS.map((s, index) => {
       const len = s.x1 - s.x0;
-      const geometry = new CylinderGeometry(STROKE * 0.72, STROKE * 0.72, len, 10, 160, true);
+      const geometry = new CylinderGeometry(STROKE * 0.72, STROKE * 0.72, len, 8, 96, true);
       geometry.rotateZ(-Math.PI / 2);
       geometry.translate(s.x0 + len / 2, s.y, 0);
       const mesh = new Mesh(geometry, brass);

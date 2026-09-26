@@ -55,11 +55,9 @@ export function Navbar() {
 
   return (
     <>
-      <m.header
-        initial={{ opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.1 }}
-        className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4"
+      <header
+        style={{ animationDelay: "0.1s" }}
+        className="animate-drop fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5 sm:pt-4"
       >
         <nav
           aria-label="Primary"
@@ -118,7 +116,7 @@ export function Navbar() {
             </button>
           </div>
         </nav>
-      </m.header>
+      </header>
 
       <AnimatePresence>
         {open ? (

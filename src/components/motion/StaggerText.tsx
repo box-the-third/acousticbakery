@@ -41,9 +41,31 @@ export function StaggerText({
   immediate = false,
 }: StaggerTextProps) {
   const words = text.split(" ");
-  const trigger = immediate
-    ? { animate: "visible" }
-    : { whileInView: "visible", viewport: { once: true, margin: "0px 0px -10% 0px" } };
+
+  // On-mount entrances use pure CSS, so text is visible on first paint
+  // instead of waiting for JavaScript to hydrate.
+  if (immediate) {
+    return (
+      <Tag className={className}>
+        <span className="sr-only">{text}</span>
+        <span aria-hidden>
+          {words.map((w, i) => (
+            <span key={`${w}-${i}`} className="inline-block overflow-hidden pb-[0.12em] align-bottom">
+              <span
+                className="animate-word inline-block"
+                style={{ animationDelay: `${delay + i * 0.07}s` }}
+              >
+                {w}
+              </span>
+              {i < words.length - 1 ? " " : null}
+            </span>
+          ))}
+        </span>
+      </Tag>
+    );
+  }
+
+  const trigger = { whileInView: "visible", viewport: { once: true, margin: "0px 0px -10% 0px" } };
 
   return (
     <Tag className={className}>

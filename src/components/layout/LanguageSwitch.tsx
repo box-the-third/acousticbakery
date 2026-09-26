@@ -1,6 +1,5 @@
 "use client";
 
-import { m } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import type { Locale } from "@/i18n/dictionary";
 
@@ -40,15 +39,12 @@ export function LanguageSwitch({ tone = "light" }: { tone?: "light" | "dark" }) 
                   : "text-ink/70 hover:text-ink"
             }`}
           >
-            {active ? (
-              <m.span
-                aria-hidden
-                initial={{ opacity: 0, scale: 0.85 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4 }}
-                className={`absolute inset-0 -z-10 rounded-full ${onDark ? "bg-paper" : "bg-ink"}`}
-              />
-            ) : null}
+            <span
+              aria-hidden
+              className={`absolute inset-0 -z-10 rounded-full transition-all duration-500 ${
+                onDark ? "bg-paper" : "bg-ink"
+              } ${active ? "scale-100 opacity-100" : "scale-75 opacity-0"}`}
+            />
             <span className={option.value === "ar" ? "font-[family-name:var(--font-plex-arabic)]" : ""}>
               {option.label}
             </span>

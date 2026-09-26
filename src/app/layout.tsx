@@ -64,7 +64,7 @@ export const viewport: Viewport = {
 
 // Runs before paint: returning Arabic visitors see the page fade in already flipped,
 // instead of a flash of the English layout.
-const bootScript = `try{if(localStorage.getItem("acoustic-locale")==="ar"){document.documentElement.classList.add("is-switching-locale")}}catch(e){}`;
+const bootScript = `try{if(localStorage.getItem("acoustic-locale")==="ar"){document.documentElement.classList.add("is-booting-locale")}}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

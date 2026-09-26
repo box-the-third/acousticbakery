@@ -15,13 +15,31 @@ export function HeroVisual() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    // Keep the static mark where 3D would cost more than it gives.
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const lowPowerTouch =
+      window.matchMedia("(pointer: coarse)").matches && (navigator.hardwareConcurrency ?? 8) <= 4;
+    if (connection?.saveData || reduceMotion || lowPowerTouch) return;
+
+    // Wait for the page to finish loading, then for an idle moment, so the
+    // Three.js download and setup never compete with first paint or hydration.
+    let idleId: number | undefined;
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
     const start = () => setMountScene(true);
-    if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(start, { timeout: 1200 });
-      return () => window.cancelIdleCallback(id);
-    }
-    const id = setTimeout(start, 400);
-    return () => clearTimeout(id);
+    const schedule = () => {
+      if ("requestIdleCallback" in window) idleId = window.requestIdleCallback(start, { timeout: 2500 });
+      else timeoutId = setTimeout(start, 600);
+    };
+
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
+
+    return () => {
+      window.removeEventListener("load", schedule);
+      if (idleId !== undefined) window.cancelIdleCallback(idleId);
+      if (timeoutId !== undefined) clearTimeout(timeoutId);
+    };
   }, []);
 
   return (

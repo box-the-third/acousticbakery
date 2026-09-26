@@ -86,9 +86,68 @@
   }
 }
 
+/* First-paint entrances (CSS only, no JS needed). "backwards" fill hands the
+   final transform back to inline styles such as scroll parallax. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@keyframes rise-soft {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes word {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+  }
+}
+
+.animate-rise {
+  animation: rise 1s var(--ease-soft) backwards;
+}
+
+.animate-rise-soft {
+  animation: rise-soft 1.6s var(--ease-soft) 0.3s backwards;
+}
+
+.animate-drop {
+  animation: drop 0.9s var(--ease-soft) backwards;
+}
+
+.animate-word {
+  animation: word 0.9s var(--ease-soft) backwards;
+}
+
 /* Language switch cross-fade */
 html.is-switching-locale body {
   opacity: 0;
+}
+
+/* Returning Arabic visitors: hidden until React applies RTL, but never for
+   longer than 1.2s, even on a slow phone. */
+@keyframes reveal {
+  to {
+    opacity: 1;
+  }
+}
+
+html.is-booting-locale body {
+  opacity: 0;
+  animation: reveal 0.3s ease 1.2s forwards;
 }
 
 @layer utilities {

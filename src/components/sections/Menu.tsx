@@ -65,15 +65,12 @@ export function Menu() {
                       selected ? "text-ink" : "text-paper/70 hover:text-paper"
                     }`}
                   >
-                    {selected ? (
-                      <m.span
-                        aria-hidden
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.45 }}
-                        className="absolute inset-0 -z-10 rounded-full bg-paper"
-                      />
-                    ) : null}
+                    <span
+                      aria-hidden
+                      className={`absolute inset-0 -z-10 rounded-full bg-paper transition-all duration-500 ${
+                        selected ? "scale-100 opacity-100" : "scale-90 opacity-0"
+                      }`}
+                    />
                     <span className="relative">{t.menu.categories[c.id]}</span>
                   </button>
                 );

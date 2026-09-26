@@ -14,11 +14,8 @@ export function Hero() {
   const copyY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
   const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  const fadeUp = (delay: number) => ({
-    initial: { opacity: 0, y: 18 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 1, delay },
-  });
+  // Entrance runs in CSS so the hero is visible on first paint, before any JS loads.
+  const rise = (delay: number) => ({ style: { animationDelay: `${delay}s` } });
 
   return (
     <section
@@ -35,10 +32,10 @@ export function Hero() {
 
       <div className="container-page grid flex-1 grid-cols-1 items-center gap-6 pb-16 lg:grid-cols-12 lg:gap-8 lg:pb-24">
         <m.div style={{ y: copyY, opacity: fade }} className="text-start lg:col-span-6">
-          <m.p {...fadeUp(0.2)} className="eyebrow flex items-center gap-3 text-ink/70">
+          <p {...rise(0.2)} className="animate-rise eyebrow flex items-center gap-3 text-ink/70">
             <span aria-hidden className="h-px w-8 bg-ink/40" />
             {t.hero.eyebrow}
-          </m.p>
+          </p>
 
           <StaggerText
             key={`title-${locale}`}
@@ -49,14 +46,14 @@ export function Hero() {
             className="font-display mt-6 text-[2.6rem] leading-[1.06] font-extralight text-ink sm:text-6xl lg:text-[3.8rem] xl:text-[4.6rem]"
           />
 
-          <m.p
-            {...fadeUp(0.9)}
-            className="mt-7 max-w-lg text-base leading-relaxed text-ink/75 sm:text-lg"
+          <p
+            {...rise(0.8)}
+            className="animate-rise mt-7 max-w-lg text-base leading-relaxed text-ink/75 sm:text-lg"
           >
             {t.hero.body}
-          </m.p>
+          </p>
 
-          <m.div {...fadeUp(1.05)} className="mt-9 flex flex-wrap items-center gap-3 sm:gap-4">
+          <div {...rise(0.95)} className="animate-rise mt-9 flex flex-wrap items-center gap-3 sm:gap-4">
             <a
               href="#menu"
               className="group inline-flex h-13 items-center gap-3 rounded-full bg-ink px-7 text-sm font-medium text-paper shadow-[0_18px_40px_-18px_rgba(47,56,57,0.7)] transition-all duration-500 hover:bg-ink-night hover:shadow-[0_22px_50px_-18px_rgba(47,56,57,0.8)]"
@@ -75,15 +72,12 @@ export function Hero() {
             >
               {t.hero.secondary}
             </a>
-          </m.div>
+          </div>
         </m.div>
 
         <m.div
           style={{ y: visualY }}
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.6, delay: 0.3 }}
-          className="relative aspect-[16/10] w-full lg:col-span-6 lg:aspect-[5/4]"
+          className="animate-rise-soft relative aspect-[16/10] w-full lg:col-span-6 lg:aspect-[5/4]"
         >
           <HeroVisual />
           <p className="eyebrow pointer-events-none absolute inset-x-0 bottom-0 text-center !text-[0.65rem] text-ink/60 lg:bottom-6">
@@ -92,19 +86,17 @@ export function Hero() {
         </m.div>
       </div>
 
-      <m.a
+      <a
         href="#story"
         aria-label={t.hero.scroll}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 1 }}
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-ink/60 lg:flex"
+        style={{ animationDelay: "1.6s" }}
+        className="animate-rise absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 text-ink/60 lg:flex"
       >
         <span className="eyebrow !text-[0.6rem]">{t.hero.scroll}</span>
         <span className="relative h-10 w-px overflow-hidden bg-ink/15">
           <span className="absolute inset-x-0 top-0 h-1/2 animate-[scrollcue_2.4s_ease-in-out_infinite] bg-ink/70" />
         </span>
-      </m.a>
+      </a>
     </section>
   );
 }

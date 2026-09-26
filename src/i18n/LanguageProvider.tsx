@@ -62,7 +62,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
     // The inline boot script hides the page for returning Arabic visitors; reveal it now.
     window.requestAnimationFrame(() =>
-      document.documentElement.classList.remove("is-switching-locale"),
+      document.documentElement.classList.remove("is-switching-locale", "is-booting-locale"),
     );
   }, [locale, ready]);
 
