@@ -7,6 +7,7 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
+/** Read-only menu: underlined category tabs over a two-column ruled price list. */
 export function Menu() {
   const { t, locale } = useLanguage();
   const [active, setActive] = useState<MenuCategoryId>("bakery");
@@ -31,59 +32,63 @@ export function Menu() {
   };
 
   return (
-    <section id="menu" className="relative isolate overflow-hidden bg-ink py-24 text-paper sm:py-32">
-      <div aria-hidden className="pattern-isotype pointer-events-none absolute inset-0 -z-10 opacity-[0.025]" />
-      <div aria-hidden className="pointer-events-none absolute -top-40 end-0 -z-10 size-[36rem] rounded-full bg-mist/15 blur-[140px]" />
-
+    <section id="menu" className="bg-paper py-24 sm:py-32">
       <div className="container-page">
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading tone="dark" eyebrow={t.menu.eyebrow} title={t.menu.title} body={t.menu.body} />
-
-          <Reveal delay={0.2}>
-            <div
-              role="tablist"
-              aria-label={t.menu.eyebrow}
-              className="no-scrollbar -mx-1 flex gap-1 overflow-x-auto rounded-full border border-paper/15 p-1 sm:w-fit"
-            >
-              {menu.map((c, index) => {
-                const selected = c.id === active;
-                return (
-                  <button
-                    key={c.id}
-                    ref={(node) => {
-                      tabRefs.current[index] = node;
-                    }}
-                    role="tab"
-                    type="button"
-                    id={`${baseId}-tab-${c.id}`}
-                    aria-selected={selected}
-                    aria-controls={`${baseId}-panel`}
-                    tabIndex={selected ? 0 : -1}
-                    onClick={() => setActive(c.id)}
-                    onKeyDown={(event) => onTabKeyDown(event, index)}
-                    className={`relative flex-1 whitespace-nowrap rounded-full px-5 py-3 text-sm font-medium transition-colors duration-500 sm:flex-none sm:px-7 ${
-                      selected ? "text-ink" : "text-paper/70 hover:text-paper"
-                    }`}
-                  >
-                    <span
-                      aria-hidden
-                      className={`absolute inset-0 -z-10 rounded-full bg-paper transition-all duration-500 ${
-                        selected ? "scale-100 opacity-100" : "scale-90 opacity-0"
-                      }`}
-                    />
-                    <span className="relative">{t.menu.categories[c.id]}</span>
-                  </button>
-                );
-              })}
-            </div>
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <SectionHeading
+            eyebrow={t.menu.eyebrow}
+            title={t.menu.title}
+            titleClassName="max-w-xl text-5xl sm:text-6xl lg:text-[5.4rem]"
+          />
+          <Reveal delay={0.15}>
+            <p className="max-w-sm leading-relaxed text-ink-night/70">{t.menu.body}</p>
           </Reveal>
         </div>
+
+        <Reveal delay={0.1}>
+          <div
+            role="tablist"
+            aria-label={t.menu.eyebrow}
+            className="no-scrollbar mt-14 flex gap-8 overflow-x-auto border-b border-ink/25 sm:gap-12"
+          >
+            {menu.map((c, index) => {
+              const selected = c.id === active;
+              return (
+                <button
+                  key={c.id}
+                  ref={(node) => {
+                    tabRefs.current[index] = node;
+                  }}
+                  role="tab"
+                  type="button"
+                  id={`${baseId}-tab-${c.id}`}
+                  aria-selected={selected}
+                  aria-controls={`${baseId}-panel`}
+                  tabIndex={selected ? 0 : -1}
+                  onClick={() => setActive(c.id)}
+                  onKeyDown={(event) => onTabKeyDown(event, index)}
+                  className={`relative shrink-0 pb-4 transition-colors duration-300 ${
+                    selected ? "text-ink" : "text-ink/45 hover:text-ink/80"
+                  }`}
+                >
+                  <span className="display-title text-3xl sm:text-4xl">{t.menu.categories[c.id]}</span>
+                  <span
+                    aria-hidden
+                    className={`absolute inset-x-0 -bottom-px h-[3px] bg-coral transition-transform duration-500 ${
+                      selected ? "scale-x-100" : "scale-x-0"
+                    }`}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </Reveal>
 
         <div
           role="tabpanel"
           id={`${baseId}-panel`}
           aria-labelledby={`${baseId}-tab-${active}`}
-          className="mt-14 min-h-[34rem] sm:min-h-[28rem]"
+          className="min-h-[30rem] sm:min-h-[24rem]"
         >
           <AnimatePresence mode="wait">
             <m.ul
@@ -93,51 +98,44 @@ export function Menu() {
               exit="exit"
               variants={{
                 hidden: {},
-                visible: { transition: { staggerChildren: 0.06 } },
+                visible: { transition: { staggerChildren: 0.05 } },
                 exit: { opacity: 0, transition: { duration: 0.2 } },
               }}
-              className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-5"
+              className="grid grid-cols-1 gap-x-16 md:grid-cols-2"
             >
               {category.items.map((item) => (
                 <m.li
                   key={item.id}
                   variants={{
-                    hidden: { opacity: 0, y: 16 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
+                    hidden: { opacity: 0, y: 14 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
                   }}
+                  className="group border-b border-ink/20 py-7"
                 >
-                  <article className="group relative h-full rounded-2xl border border-paper/10 bg-paper/[0.035] p-6 transition-all duration-500 hover:-translate-y-1 hover:border-gold/40 hover:bg-paper/[0.07] sm:p-7">
-                    <div className="flex items-baseline gap-4">
-                      <h3 className="font-display text-xl font-light text-paper sm:text-2xl">
-                        {item.name[locale]}
-                      </h3>
-                      <span
-                        aria-hidden
-                        className="mb-1.5 min-w-6 flex-1 border-b border-dotted border-paper/25 transition-colors duration-500 group-hover:border-gold/50"
-                      />
-                      <p className="shrink-0 text-base font-medium text-gold tabular-nums">
-                        {formatPrice(item.price)}
-                      </p>
-                    </div>
-                    <p className="mt-3 max-w-md text-sm leading-relaxed text-stone/70">
-                      {item.description[locale]}
+                  <div className="flex items-baseline justify-between gap-6">
+                    <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] text-ink rtl:tracking-normal">
+                      {item.name[locale]}
+                    </h3>
+                    <p className="shrink-0 text-sm font-bold tracking-wide text-ink tabular-nums">
+                      {formatPrice(item.price)}
                     </p>
-                    {item.signature ? (
-                      <span className="mt-4 inline-flex items-center gap-2 text-[0.7rem] text-gold/90">
-                        <span aria-hidden className="size-1 rounded-full bg-gold" />
-                        <span className="eyebrow !text-[0.65rem]">{t.menu.signature}</span>
-                      </span>
-                    ) : null}
-                  </article>
+                  </div>
+                  <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-night/65">
+                    {item.description[locale]}
+                  </p>
+                  {item.signature ? (
+                    <span className="mt-3 inline-flex items-center gap-2 text-[0.65rem] font-bold tracking-[0.16em] text-coral uppercase rtl:text-xs rtl:tracking-normal">
+                      <span aria-hidden className="size-1.5 bg-coral" />
+                      {t.menu.signature}
+                    </span>
+                  ) : null}
                 </m.li>
               ))}
             </m.ul>
           </AnimatePresence>
         </div>
 
-        <Reveal>
-          <p className="mt-10 text-center text-xs leading-relaxed text-stone/60">{t.menu.note}</p>
-        </Reveal>
+        <p className="mt-10 text-xs leading-relaxed text-ink-night/55">{t.menu.note}</p>
       </div>
     </section>
   );

@@ -20,3 +20,6 @@ npm-debug.log*
 
 # brand source files (large; web-ready copies live in public/)
 /Assets/
+
+# design reference from the client (web-ready copies live in public/images)
+/Acoustic Bakery & P*

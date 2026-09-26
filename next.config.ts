@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ["framer-motion", "three"],
+    // Ships the (small) stylesheet inside the HTML: one less round trip before first paint.
+    inlineCss: true,
   },
 };
 

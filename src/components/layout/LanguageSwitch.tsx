@@ -1,56 +1,26 @@
 "use client";
 
 import { useLanguage } from "@/i18n/LanguageProvider";
-import type { Locale } from "@/i18n/dictionary";
 
-const OPTIONS: { value: Locale; label: string }[] = [
-  { value: "en", label: "EN" },
-  { value: "ar", label: "عربي" },
-];
-
+/** Single square toggle that names the other language, as in the reference design. */
 export function LanguageSwitch({ tone = "light" }: { tone?: "light" | "dark" }) {
-  const { locale, setLocale, t } = useLanguage();
+  const { locale, toggleLocale, t } = useLanguage();
   const onDark = tone === "dark";
+  const target = locale === "en" ? "ar" : "en";
 
   return (
-    <div
-      role="group"
+    <button
+      type="button"
+      onClick={toggleLocale}
       aria-label={t.nav.language}
-      className={`relative flex w-fit items-center rounded-full border p-1 ${
-        onDark ? "border-paper/25" : "border-ink/15 bg-paper/60"
+      lang={target}
+      className={`inline-flex h-10 min-w-12 items-center justify-center border px-3 text-xs font-bold transition-colors duration-300 ${
+        onDark
+          ? "border-paper/50 text-paper hover:bg-paper hover:text-ink"
+          : "border-ink/30 text-ink hover:bg-ink hover:text-paper"
       }`}
     >
-      {OPTIONS.map((option) => {
-        const active = option.value === locale;
-        return (
-          <button
-            key={option.value}
-            type="button"
-            lang={option.value}
-            aria-pressed={active}
-            onClick={() => setLocale(option.value)}
-            className={`relative z-10 min-h-9 min-w-11 rounded-full px-3 text-xs font-medium transition-colors duration-300 ${
-              active
-                ? onDark
-                  ? "text-ink"
-                  : "text-paper"
-                : onDark
-                  ? "text-paper/75 hover:text-paper"
-                  : "text-ink/70 hover:text-ink"
-            }`}
-          >
-            <span
-              aria-hidden
-              className={`absolute inset-0 -z-10 rounded-full transition-all duration-500 ${
-                onDark ? "bg-paper" : "bg-ink"
-              } ${active ? "scale-100 opacity-100" : "scale-75 opacity-0"}`}
-            />
-            <span className={option.value === "ar" ? "font-[family-name:var(--font-plex-arabic)]" : ""}>
-              {option.label}
-            </span>
-          </button>
-        );
-      })}
-    </div>
+      {target === "ar" ? <span className="font-[system-ui,sans-serif] text-sm">العربية</span> : "EN"}
+    </button>
   );
 }

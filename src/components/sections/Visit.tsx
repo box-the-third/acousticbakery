@@ -1,96 +1,175 @@
 "use client";
 
+import { useEffect, useState, type FormEvent } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Isotype } from "@/components/ui/Isotype";
+import { ArrowUpRight, Clock, MapPin, Phone, Send } from "@/components/ui/Icons";
+import {
+  ENQUIRY_EVENT,
+  MAPS_URL,
+  PHONE_DISPLAY,
+  PHONE_TEL,
+  whatsappLink,
+  type EnquiryType,
+} from "@/data/site";
 
-export const MAPS_URL =
-  "https://www.google.com/maps/search/?api=1&query=Olaya+St%2C+Al+Olaya%2C+Riyadh+12221%2C+Saudi+Arabia";
+const TOPICS: EnquiryType[] = ["party", "airline", "buffet", "gifting", "other"];
+
+const fieldClass =
+  "mt-2 w-full border border-ink/25 bg-paper px-4 py-3 text-ink placeholder:text-ink/40 transition-colors focus:border-ink focus:outline-none";
+const labelClass = "text-[0.68rem] font-bold tracking-[0.14em] text-ink uppercase rtl:text-sm rtl:tracking-normal";
 
 export function Visit() {
   const { t, locale } = useLanguage();
+  const [topic, setTopic] = useState<EnquiryType | "">("");
 
-  // The address is always shown in both languages, led by the active one.
-  const addresses =
-    locale === "ar"
-      ? [
-          { text: t.visit.addressAr, lang: "ar", dir: "rtl" as const },
-          { text: t.visit.addressEn, lang: "en", dir: "ltr" as const },
-        ]
-      : [
-          { text: t.visit.addressEn, lang: "en", dir: "ltr" as const },
-          { text: t.visit.addressAr, lang: "ar", dir: "rtl" as const },
-        ];
+  // Catering buttons elsewhere on the page preselect the topic.
+  useEffect(() => {
+    const onEnquire = (event: Event) => setTopic((event as CustomEvent<EnquiryType>).detail);
+    window.addEventListener(ENQUIRY_EVENT, onEnquire);
+    return () => window.removeEventListener(ENQUIRY_EVENT, onEnquire);
+  }, []);
+
+  // No backend: the form composes a WhatsApp message for the team.
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const chosen = topic ? t.enquire.topics[topic] : "";
+    const lines = [
+      `${t.enquire.greeting} ${chosen}.`,
+      `${t.enquire.name}: ${data.get("name")}`,
+      data.get("date") ? `${t.enquire.date}: ${data.get("date")}` : "",
+      `${data.get("message")}`,
+    ].filter(Boolean);
+    window.open(whatsappLink(lines.join("\n")), "_blank", "noopener,noreferrer");
+  };
+
+  const details = [
+    {
+      icon: <MapPin />,
+      label: t.visit.addressLabel,
+      content: (
+        <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="block hover:underline">
+          <span lang="en" dir="ltr" className="block text-start">
+            {t.visit.addressEn}
+          </span>
+          <span lang="ar" dir="rtl" className="mt-1 block text-start font-[system-ui,sans-serif] text-ink-night/70">
+            {t.visit.addressAr}
+          </span>
+        </a>
+      ),
+    },
+    {
+      icon: <Phone />,
+      label: t.visit.phoneLabel,
+      content: (
+        <a href={`tel:${PHONE_TEL}`} dir="ltr" className="hover:underline">
+          {PHONE_DISPLAY}
+        </a>
+      ),
+    },
+    { icon: <Clock />, label: t.visit.hoursLabel, content: <span>{t.visit.hours}</span> },
+  ];
 
   return (
-    <section id="visit" className="relative bg-paper py-24 sm:py-32 lg:py-40">
-      <div className="container-page grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-20">
-        <div className="lg:col-span-5">
-          <SectionHeading eyebrow={t.visit.eyebrow} title={t.visit.title} body={t.visit.body} />
+    <section id="visit" className="bg-shell py-24 sm:py-32">
+      <div className="container-page grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
+        <div>
+          <SectionHeading
+            eyebrow={t.visit.eyebrow}
+            title={t.visit.title}
+            titleClassName="max-w-xl text-5xl sm:text-6xl lg:text-[5rem]"
+          />
+          <Reveal delay={0.1}>
+            <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-night/75">{t.visit.body}</p>
+          </Reveal>
 
           <Reveal delay={0.15}>
-            <h3 className="eyebrow mt-12 text-ink/60">{t.visit.hoursLabel}</h3>
-            <dl className="mt-5 divide-y divide-ink/10 border-y border-ink/10">
-              {t.visit.hours.map((row) => (
-                <div key={row.days} className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 py-5">
-                  <dt className="font-display text-lg font-light text-ink">{row.days}</dt>
-                  <dd className="text-sm text-ink/75 tabular-nums">{row.time}</dd>
+            <dl className="mt-10 border-t border-ink/25">
+              {details.map((detail) => (
+                <div key={detail.label} className="flex gap-5 border-b border-ink/25 py-5">
+                  <span className="mt-0.5 text-coral">{detail.icon}</span>
+                  <div>
+                    <dt className={labelClass}>{detail.label}</dt>
+                    <dd className="mt-2 font-semibold text-ink">{detail.content}</dd>
+                  </div>
                 </div>
               ))}
             </dl>
-            <p className="mt-4 text-xs text-ink/55">{t.visit.note}</p>
+            <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="text-link mt-8 text-ink">
+              {t.visit.directions}
+              <ArrowUpRight />
+            </a>
           </Reveal>
         </div>
 
-        <Reveal delay={0.1} distance={28} className="lg:col-span-7">
-          <div className="relative isolate flex h-full min-h-[26rem] flex-col justify-between overflow-hidden rounded-[2rem] bg-ink p-7 text-paper sm:p-10 lg:p-12">
-            <div aria-hidden className="pattern-isotype pointer-events-none absolute inset-0 -z-10 opacity-[0.05]" />
-            <div aria-hidden className="pointer-events-none absolute -bottom-32 -end-24 -z-10 size-96 rounded-full bg-gold/20 blur-[100px]" />
+        <Reveal delay={0.1}>
+          <form
+            id="enquire"
+            onSubmit={onSubmit}
+            className="border border-ink/25 bg-paper p-7 sm:p-10"
+          >
+            <h3 className="display-title text-4xl text-ink sm:text-5xl">{t.enquire.title}</h3>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-night/70">{t.enquire.body}</p>
 
-            <div className="flex items-start justify-between gap-6">
-              <p className="eyebrow text-gold">{t.visit.addressLabel}</p>
-              <Isotype tone="white" className="h-auto w-24 opacity-80 sm:w-28" />
+            <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <label className="block">
+                <span className={labelClass}>{t.enquire.name}</span>
+                <input
+                  name="name"
+                  required
+                  autoComplete="name"
+                  placeholder={t.enquire.namePlaceholder}
+                  className={fieldClass}
+                />
+              </label>
+              <label className="block">
+                <span className={labelClass}>{t.enquire.date}</span>
+                <input name="date" type="date" className={fieldClass} lang={locale} />
+              </label>
             </div>
 
-            <address className="mt-10 space-y-6 not-italic">
-              {addresses.map((address, index) => (
-                <p
-                  key={address.lang}
-                  lang={address.lang}
-                  dir={address.dir}
-                  className={
-                    index === 0
-                      ? `text-start text-2xl leading-snug font-light text-paper sm:text-3xl lg:text-[2.1rem] ${
-                          address.lang === "ar"
-                            ? "font-[family-name:var(--font-readex)]"
-                            : "font-[family-name:var(--font-vonca)]"
-                        }`
-                      : `text-start text-base text-stone/70 sm:text-lg ${
-                          address.lang === "ar" ? "font-[family-name:var(--font-plex-arabic)]" : ""
-                        }`
-                  }
-                >
-                  {address.text}
-                </p>
-              ))}
-            </address>
-
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <a
-                href={MAPS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex h-13 items-center gap-3 rounded-full bg-paper px-7 text-sm font-medium text-ink transition-colors duration-500 hover:bg-gold"
+            <label className="mt-5 block">
+              <span className={labelClass}>{t.enquire.topic}</span>
+              <select
+                name="topic"
+                required
+                value={topic}
+                onChange={(event) => setTopic(event.target.value as EnquiryType)}
+                className={`${fieldClass} appearance-none bg-[length:12px] bg-[position:right_1rem_center] bg-no-repeat rtl:bg-[position:left_1rem_center]`}
+                style={{
+                  backgroundImage:
+                    "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%234b585a' stroke-width='1.5'/%3E%3C/svg%3E\")",
+                }}
               >
-                <svg aria-hidden viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 21s-7-6.2-7-11.5a7 7 0 1 1 14 0C19 14.8 12 21 12 21Z" />
-                  <circle cx="12" cy="9.5" r="2.5" />
-                </svg>
-                {t.visit.directions}
-              </a>
-            </div>
-          </div>
+                <option value="" disabled>
+                  {t.enquire.topicPlaceholder}
+                </option>
+                {TOPICS.map((value) => (
+                  <option key={value} value={value}>
+                    {t.enquire.topics[value]}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="mt-5 block">
+              <span className={labelClass}>{t.enquire.message}</span>
+              <textarea
+                name="message"
+                required
+                rows={4}
+                placeholder={t.enquire.messagePlaceholder}
+                className={`${fieldClass} resize-y`}
+              />
+            </label>
+
+            <button type="submit" className="btn btn-dark mt-7 w-full sm:w-auto">
+              {t.enquire.submit}
+              <Send />
+            </button>
+          </form>
         </Reveal>
       </div>
     </section>

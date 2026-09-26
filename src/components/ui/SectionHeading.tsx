@@ -4,52 +4,33 @@ import { Reveal } from "@/components/motion/Reveal";
 type SectionHeadingProps = {
   eyebrow: string;
   title: string;
-  body?: string;
   tone?: "light" | "dark";
-  align?: "start" | "center";
+  className?: string;
+  titleClassName?: string;
+  as?: "h2" | "h3";
 };
 
+/** Eyebrow label plus a bold display title, revealed word by word. */
 export function SectionHeading({
   eyebrow,
   title,
-  body,
   tone = "light",
-  align = "start",
-
+  className = "",
+  titleClassName = "text-5xl sm:text-6xl lg:text-[5.4rem]",
+  as = "h2",
 }: SectionHeadingProps) {
   const onDark = tone === "dark";
-  const centered = align === "center";
 
   return (
-    <div className={centered ? "mx-auto max-w-2xl text-center" : "max-w-2xl text-start"}>
+    <div className={`text-start ${className}`}>
       <Reveal>
-        <p
-          className={`eyebrow flex items-center gap-3 ${centered ? "justify-center" : ""} ${
-            onDark ? "text-gold" : "text-ink/70"
-          }`}
-        >
-          <span aria-hidden className={`h-px w-8 ${onDark ? "bg-gold/70" : "bg-ink/40"}`} />
-          {eyebrow}
-        </p>
+        <p className={`eyebrow ${onDark ? "text-paper" : "text-ink"}`}>{eyebrow}</p>
       </Reveal>
       <StaggerText
-        as="h2"
+        as={as}
         text={title}
-        className={`font-display mt-5 text-4xl font-light leading-[1.1] sm:text-5xl lg:text-[3.4rem] ${
-          onDark ? "text-paper" : "text-ink"
-        }`}
+        className={`display-title mt-5 ${titleClassName} ${onDark ? "text-paper" : "text-ink"}`}
       />
-      {body ? (
-        <Reveal delay={0.15}>
-          <p
-            className={`mt-6 text-base leading-relaxed sm:text-lg ${
-              onDark ? "text-stone/80" : "text-ink/75"
-            }`}
-          >
-            {body}
-          </p>
-        </Reveal>
-      ) : null}
     </div>
   );
 }

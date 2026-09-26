@@ -1,26 +1,26 @@
 @import "tailwindcss";
 
-/* Brand tokens, from the Acoustic brand guidelines */
+/* Brand tokens: brand guideline colours plus the warm paper palette the
+   client approved in the reference design. */
 @theme {
   --color-ink: #4b585a; /* Pantone 445 C */
   --color-ink-deep: #3b4648;
-  --color-ink-night: #2f3839;
+  --color-ink-night: #222d2f;
   --color-mist: #b1bec6; /* Pantone 7542 C */
-  --color-mist-soft: #d7dee2;
-  --color-gold: #d4c194; /* Pantone 467 C */
-  --color-gold-deep: #9c8656;
-  --color-stone: #e7e5df; /* Pantone 9043 C */
-  --color-cream: #f5f3ef;
-  --color-paper: #fbfaf8;
+  --color-paper: #f5f0e6;
+  --color-shell: #e6ded0;
+  --color-cream: #f7f4ed;
+  --color-coral: #d98e78;
+  --color-olive: #7f8e7d;
 
-  --font-display: var(--font-vonca), "Vonca", ui-serif, Georgia, serif;
+  --font-display: var(--font-vonca), "Vonca", ui-sans-serif, sans-serif;
   --font-sans: var(--font-albert), "Albert Sans", ui-sans-serif, system-ui, sans-serif;
 
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Arabic typography. The brand fonts are Latin only, so Arabic is paired with
-   a light geometric display face and a clean humanist sans. */
+   a geometric display face and a clean humanist sans. */
 :root:lang(ar) {
   --font-display: var(--font-readex), var(--font-vonca), sans-serif;
   --font-sans: var(--font-plex-arabic), var(--font-albert), sans-serif;
@@ -49,56 +49,33 @@
   }
 
   ::selection {
-    background-color: var(--color-mist);
+    background-color: var(--color-coral);
     color: var(--color-ink-night);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-gold-deep);
+    outline: 2px solid var(--color-coral);
     outline-offset: 3px;
-    border-radius: 4px;
   }
 
   [id] {
-    scroll-margin-top: 5.5rem;
-  }
-}
-
-@keyframes scrollcue {
-  0% {
-    transform: translateY(-100%);
-  }
-  60%,
-  100% {
-    transform: translateY(220%);
-  }
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes marquee-rtl {
-  to {
-    transform: translateX(50%);
+    scroll-margin-top: 5rem;
   }
 }
 
 /* First-paint entrances (CSS only, no JS needed). "backwards" fill hands the
-   final transform back to inline styles such as scroll parallax. */
+   final transform back to inline styles such as parallax. Hero content never
+   starts fully transparent, so it stays readable on a busy phone. */
 @keyframes rise {
   from {
-    opacity: 0;
-    transform: translateY(18px);
+    opacity: 0.3;
+    transform: translateY(14px);
   }
 }
 
-@keyframes rise-soft {
+@keyframes settle {
   from {
-    opacity: 0;
-    transform: scale(0.96);
+    transform: scale(1.06);
   }
 }
 
@@ -111,17 +88,17 @@
 
 @keyframes word {
   from {
-    opacity: 0;
-    transform: translateY(0.45em);
+    opacity: 0.25;
+    transform: translateY(0.35em);
   }
 }
 
 .animate-rise {
-  animation: rise 1s var(--ease-soft) backwards;
+  animation: rise 0.8s var(--ease-soft) backwards;
 }
 
-.animate-rise-soft {
-  animation: rise-soft 1.6s var(--ease-soft) 0.3s backwards;
+.animate-settle {
+  animation: settle 2.4s var(--ease-soft) backwards;
 }
 
 .animate-drop {
@@ -129,7 +106,7 @@
 }
 
 .animate-word {
-  animation: word 0.9s var(--ease-soft) backwards;
+  animation: word 0.8s var(--ease-soft) backwards;
 }
 
 /* Language switch cross-fade */
@@ -150,22 +127,38 @@ html.is-booting-locale body {
   animation: reveal 0.3s ease 1.2s forwards;
 }
 
-@layer utilities {
-  .font-display {
+@layer components {
+  /* Bold, tightly set display headings, as in the approved reference. */
+  .display-title {
     font-family: var(--font-display);
-    letter-spacing: 0.01em;
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
   }
 
-  :root:lang(ar) .font-display {
+  :root:lang(ar) .display-title {
     letter-spacing: 0;
+    line-height: 1.25;
   }
 
-  /* Latin eyebrow labels are tracked out; Arabic must never be letter-spaced. */
+  /* Uppercase label with a leading hairline. */
   .eyebrow {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.32em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 2.1rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
   }
 
   :root:lang(ar) .eyebrow {
@@ -173,9 +166,107 @@ html.is-booting-locale body {
     letter-spacing: 0;
   }
 
+  /* Square buttons: the client prefers straight lines throughout. */
+  .btn {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    border: 1px solid transparent;
+    padding: 0.8rem 1.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition:
+      background-color 0.25s,
+      color 0.25s,
+      border-color 0.25s,
+      transform 0.25s;
+  }
+
+  :root:lang(ar) .btn {
+    font-size: 0.9rem;
+    letter-spacing: 0;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-light {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  .btn-light:hover {
+    background: var(--color-coral);
+  }
+
+  .btn-ghost-light {
+    border-color: rgb(247 244 237 / 0.5);
+    color: var(--color-paper);
+  }
+
+  .btn-ghost-light:hover {
+    border-color: var(--color-paper);
+    background: rgb(247 244 237 / 0.1);
+  }
+
+  .btn-dark {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  .btn-dark:hover {
+    background: var(--color-ink-night);
+  }
+
+  .btn-ghost-dark {
+    border-color: rgb(75 88 90 / 0.4);
+    color: var(--color-ink);
+  }
+
+  .btn-ghost-dark:hover {
+    border-color: var(--color-ink);
+  }
+
+  /* Underlined text link with an arrow that nudges on hover. */
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 0.3rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  :root:lang(ar) .text-link {
+    font-size: 0.9rem;
+    letter-spacing: 0;
+  }
+
+  .text-link svg {
+    transition: transform 0.22s;
+  }
+
+  .text-link:hover svg {
+    transform: translate(3px, -3px);
+  }
+
+  :root:lang(ar) .text-link:hover svg {
+    transform: translate(-3px, -3px);
+  }
+}
+
+@layer utilities {
   .container-page {
     width: 100%;
-    max-width: 80rem;
+    max-width: 77.5rem;
     margin-inline: auto;
     padding-inline: 1.25rem;
   }
@@ -186,9 +277,9 @@ html.is-booting-locale body {
     }
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     .container-page {
-      padding-inline: 3rem;
+      padding-inline: 0;
     }
   }
 

@@ -53,7 +53,7 @@ export function StaggerText({
             <span key={`${w}-${i}`} className="inline-block overflow-hidden pb-[0.12em] align-bottom">
               <span
                 className="animate-word inline-block"
-                style={{ animationDelay: `${delay + i * 0.07}s` }}
+                style={{ animationDelay: `${delay + i * 0.05}s` }}
               >
                 {w}
               </span>

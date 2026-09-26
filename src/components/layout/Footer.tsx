@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/i18n/LanguageProvider";
-import { Reveal } from "@/components/motion/Reveal";
-import { MAPS_URL } from "@/components/sections/Visit";
 import { asset } from "@/lib/asset";
 
 export function Footer() {
@@ -12,77 +10,53 @@ export function Footer() {
 
   const links = [
     { href: "#story", label: t.nav.story },
+    { href: "#offerings", label: t.nav.offerings },
     { href: "#menu", label: t.nav.menu },
-    { href: "#visit", label: t.nav.visit },
+    { href: "#boxes", label: t.nav.order },
+    { href: "#catering", label: t.nav.catering },
+    { href: "#clients", label: t.nav.clients },
   ];
 
   return (
-    <footer className="relative isolate overflow-hidden bg-ink-night text-paper">
-      <div aria-hidden className="pattern-isotype pointer-events-none absolute inset-0 -z-10 opacity-[0.03]" />
-
+    <footer className="bg-ink-night text-paper">
       <div className="container-page py-16 sm:py-20">
-        <Reveal>
-          <Image
-            src={asset("/brand/logo-white.webp")}
-            alt="Acoustic Bakery & Patisserie"
-            width={900}
-            height={86}
-            className="h-auto w-64 sm:w-80"
-          />
-          <p className="font-display mt-6 max-w-md text-lg font-light text-stone/80">{t.footer.tagline}</p>
-        </Reveal>
-
-        <div className="mt-14 grid grid-cols-1 gap-10 border-t border-paper/10 pt-10 sm:grid-cols-3">
+        <div className="flex flex-col gap-12 border-b border-cream/20 pb-14 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <h2 className="eyebrow text-gold">{t.footer.explore}</h2>
-            <ul className="mt-5 space-y-3">
+            <Image
+              src={asset("/brand/logo-white.webp")}
+              alt="Acoustic Bakery & Pâtisserie"
+              width={900}
+              height={86}
+              className="h-auto w-64 sm:w-80"
+            />
+            <p className="display-title mt-8 max-w-md text-3xl text-cream/85">{t.footer.tagline}</p>
+          </div>
+          <nav aria-label="Footer">
+            <ul className="grid grid-cols-2 gap-x-12 gap-y-3 sm:grid-cols-3">
               {links.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-sm text-stone/80 transition-colors hover:text-paper">
+                  <a
+                    href={link.href}
+                    className="text-[0.7rem] font-semibold tracking-[0.12em] text-cream/70 uppercase transition-colors hover:text-paper rtl:text-sm rtl:tracking-normal"
+                  >
                     {link.label}
                   </a>
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div>
-            <h2 className="eyebrow text-gold">{t.footer.find}</h2>
-            <a
-              href={MAPS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-5 block space-y-2 text-sm leading-relaxed text-stone/80 transition-colors hover:text-paper"
-            >
-              <span lang="en" dir="ltr" className="block text-start">
-                {t.visit.addressEn}
-              </span>
-              <span lang="ar" dir="rtl" className="block text-start">
-                {t.visit.addressAr}
-              </span>
-            </a>
-          </div>
-
-          <div>
-            <h2 className="eyebrow text-gold">{t.visit.hoursLabel}</h2>
-            <ul className="mt-5 space-y-2 text-sm text-stone/80">
-              {t.visit.hours.map((row) => (
-                <li key={row.days}>
-                  <span className="block text-paper/90">{row.days}</span>
-                  <span className="tabular-nums">{row.time}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          </nav>
         </div>
 
-        <div className="mt-14 flex flex-col-reverse items-start justify-between gap-4 border-t border-paper/10 pt-8 text-xs text-stone/50 sm:flex-row sm:items-center">
-          <p>
-            &copy; {year} Acoustic Bakery &amp; Patisserie. {t.footer.rights}
-          </p>
-          <a href="#top" className="transition-colors hover:text-paper">
-            {t.footer.backToTop} &uarr;
-          </a>
+        <div className="flex flex-col gap-3 pt-8 text-xs text-cream/55 sm:flex-row sm:items-center sm:justify-between">
+          <span>
+            {t.footer.since} · &copy; {year} {t.footer.rights}
+          </span>
+          <span className="flex items-center gap-6">
+            <span>{t.footer.city}</span>
+            <a href="#top" className="transition-colors hover:text-paper">
+              {t.footer.backToTop} &uarr;
+            </a>
+          </span>
         </div>
       </div>
     </footer>

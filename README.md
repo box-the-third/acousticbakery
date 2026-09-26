@@ -38,11 +38,13 @@ src/
   app/                 layout, page, global styles, favicon
   components/
     layout/            Navbar, LanguageSwitch, Footer, SkipLink
-    sections/          Hero, Story, Craft, Menu, Visit
+    sections/          Hero, Intro, Story, Purpose (mission and vision), Offerings,
+                       Ritual (3D), Menu, PartyBoxes, Catering, Clients, Visit
     motion/            MotionProvider, Reveal, StaggerText
-    three/             HeroVisual (lazy loader), StringsScene (WebGL)
+    three/             StringsVisual (lazy loader), StringsScene (WebGL)
     ui/                SectionHeading, Isotype
   data/menu.ts         bilingual menu items and prices (edit here)
+  data/site.ts         phone, WhatsApp, maps and online-ordering links
   i18n/                dictionary (all copy, EN + AR) and LanguageProvider
   fonts/               Vonca (brand display face, woff2)
 public/
@@ -53,12 +55,15 @@ public/
 ## Content to confirm before launch
 
 - **Menu:** `Assets/MENU.pdf` only contains placeholder copy, so `src/data/menu.ts` holds a curated sample menu. Replace it with the final items and prices.
-- **Opening hours:** set in `src/i18n/dictionary.ts` (`visit.hours`) in both languages.
+- **Online ordering link:** `ORDER_URL` in `src/data/site.ts`. Every party box and "Order online" button opens it.
+- **Party boxes, catering and client types:** copy lives in `src/i18n/dictionary.ts` (`boxes`, `catering`, `clients`).
+- **Opening hours and phone:** `visit.hours` in the dictionary, and `src/data/site.ts`.
 - **Domain:** `metadataBase` in `src/app/layout.tsx`.
 
 ## Brand notes
 
-- Colours: Pantone 445 C `#4b585a`, 7542 C `#b1bec6`, 467 C `#d4c194`, 9043 C `#e7e5df`.
+- Colours: Pantone 445 C `#4b585a` and 7542 C `#b1bec6`, with the warm paper `#f5f0e6`, shell `#e6ded0` and coral `#d98e78` from the approved reference design.
+- Straight lines throughout: square buttons, cards and frames, no rounded corners.
 - Fonts: Vonca (display) and Albert Sans (body). Neither includes Arabic glyphs, so Arabic is set in Readex Pro (display) and IBM Plex Sans Arabic (body).
 - The logo and isotype are used from the official artwork and are never mirrored in RTL.
 

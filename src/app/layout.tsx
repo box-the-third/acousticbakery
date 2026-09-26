@@ -6,27 +6,34 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { asset } from "@/lib/asset";
 import "./globals.css";
 
+// Only the two weights the design uses, subset to Latin (about 14 KB each).
 const vonca = localFont({
   src: [
-    { path: "../fonts/Vonca-ExtraLight.woff2", weight: "200", style: "normal" },
-    { path: "../fonts/Vonca-Light.woff2", weight: "300", style: "normal" },
     { path: "../fonts/Vonca-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../fonts/Vonca-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/Vonca-Semibold.woff2", weight: "600", style: "normal" },
   ],
   variable: "--font-vonca",
   display: "swap",
+  // While Vonca loads, show the device's own geometric sans (SF / Roboto),
+  // which is closer to Vonca than a metric-adjusted Arial.
+  adjustFontFallback: false,
+  fallback: ["ui-sans-serif", "system-ui", "-apple-system", "Roboto", "sans-serif"],
+  // Preloaded fonts block first paint in Chromium. Without preload, text paints
+  // immediately in a metric-matched fallback and swaps in during the fade-in.
+  preload: false,
 });
 
 const albert = Albert_Sans({
   subsets: ["latin"],
   variable: "--font-albert",
   display: "swap",
+  preload: false,
 });
 
-// Arabic faces are only needed after a language switch, so they are not preloaded.
+// Arabic faces are only downloaded when Arabic text is on screen.
 const readex = Readex_Pro({
   subsets: ["arabic"],
-  weight: ["200", "300", "400"],
+  weight: ["400", "500", "600"],
   variable: "--font-readex",
   display: "swap",
   preload: false,
@@ -42,14 +49,14 @@ const plexArabic = IBM_Plex_Sans_Arabic({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://acousticbakery.sa"),
-  title: "Acoustic | Bakery & Patisserie in Riyadh",
+  title: "Acoustic Bakery & Pâtisserie | Riyadh",
   description:
-    "Acoustic Bakery & Patisserie on Olaya Street, Riyadh. Slow-fermented breads, handcrafted French pastry and specialty coffee.",
+    "Acoustic Bakery & Pâtisserie on Olaya Street, Riyadh. Pastries, breads, coffee, party boxes, and catering, including airline catering.",
   alternates: { languages: { en: "/", ar: "/" } },
   openGraph: {
-    title: "Acoustic | Bakery & Patisserie",
-    description: "Everyday moments deserve exceptional quality. Olaya Street, Riyadh.",
-    images: [asset("/images/story-flour.webp")],
+    title: "Acoustic Bakery & Pâtisserie",
+    description: "Made for the pause. Olaya Street, Riyadh.",
+    images: [asset("/images/hero-sign.webp")],
     locale: "en_US",
     alternateLocale: ["ar_SA"],
     type: "website",
