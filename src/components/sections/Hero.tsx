@@ -1,7 +1,7 @@
 "use client";
 
 import { m, useMotionValue, useSpring, useTransform, useScroll } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { StaggerText } from "@/components/motion/StaggerText";
 import { ArrowUpRight } from "@/components/ui/Icons";
@@ -10,6 +10,17 @@ import { asset } from "@/lib/asset";
 export function Hero() {
   const { t, locale } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Below lg the photo is shown whole, stacked above the copy, so the
+  // full-bleed motion (drift, scroll sink, copy fade) only runs on wide screens.
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1024px)");
+    const update = () => setWide(query.matches);
+    update();
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
 
   // Photo drifts gently against the pointer, and sinks slightly on scroll.
   const pointerX = useMotionValue(0);
@@ -37,10 +48,15 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="top"
-      className="relative isolate flex min-h-[100svh] overflow-hidden bg-ink text-paper lg:min-h-[min(860px,100svh)]"
+      className="relative isolate flex flex-col overflow-hidden bg-ink text-paper lg:min-h-[min(860px,100svh)] lg:flex-row"
     >
-      <m.div style={{ y: scrollY }} className="absolute inset-0 -z-20">
-        <m.div style={{ x, y }} className="absolute -inset-6">
+      {/* Phones and tablets: the whole 16:9 photo sits under the header.
+          Wide screens: it fills the hero behind the copy. */}
+      <m.div
+        style={wide ? { y: scrollY } : undefined}
+        className="relative mt-18 aspect-video w-full overflow-hidden sm:mt-20 lg:absolute lg:inset-0 lg:-z-20 lg:mt-0 lg:aspect-auto lg:overflow-visible"
+      >
+        <m.div style={wide ? { x, y } : undefined} className="absolute inset-0 lg:-inset-6">
           {/* A plain img with srcset: static hosting has no image optimiser. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -50,20 +66,21 @@ export function Hero() {
             alt="The Acoustic Bakery & Pâtisserie storefront sign in Riyadh"
             fetchPriority="high"
             decoding="async"
-            className="animate-settle size-full object-cover object-[35%_center] opacity-85 rtl:object-[70%_center] saturate-[0.67] contrast-[0.93]"
+            className="animate-settle size-full object-cover opacity-85 saturate-[0.67] contrast-[0.93] lg:object-[35%_center] lg:rtl:object-[70%_center]"
           />
         </m.div>
+        <div aria-hidden className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-b from-transparent to-ink lg:hidden" />
       </m.div>
 
       {/* Legibility wash, heavier on the reading-start side */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgb(34_45_47/0.8),rgb(34_45_47/0.4)_50%,rgb(34_45_47/0.15)),linear-gradient(180deg,transparent_50%,rgb(34_45_47/0.75))] rtl:bg-[linear-gradient(270deg,rgb(34_45_47/0.8),rgb(34_45_47/0.4)_50%,rgb(34_45_47/0.15)),linear-gradient(180deg,transparent_50%,rgb(34_45_47/0.75))]"
+        className="absolute inset-0 -z-10 hidden lg:block bg-[linear-gradient(90deg,rgb(34_45_47/0.8),rgb(34_45_47/0.4)_50%,rgb(34_45_47/0.15)),linear-gradient(180deg,transparent_50%,rgb(34_45_47/0.75))] rtl:bg-[linear-gradient(270deg,rgb(34_45_47/0.8),rgb(34_45_47/0.4)_50%,rgb(34_45_47/0.15)),linear-gradient(180deg,transparent_50%,rgb(34_45_47/0.75))]"
       />
 
       <m.div
-        style={{ opacity: copyFade }}
-        className="container-page relative flex flex-1 flex-col justify-end pt-32 pb-16 sm:pb-20"
+        style={wide ? { opacity: copyFade } : undefined}
+        className="container-page relative flex flex-1 flex-col pt-8 pb-14 sm:pt-12 sm:pb-16 lg:justify-end lg:pt-32 lg:pb-20"
       >
         <div className="max-w-2xl">
           <p {...rise(0.05)} className="animate-rise eyebrow text-paper">
@@ -76,7 +93,7 @@ export function Hero() {
             immediate
             delay={0.1}
             text={t.hero.title}
-            className="display-title mt-6 mb-6 text-[4.2rem] sm:text-[6.5rem] lg:text-[8.6rem] rtl:text-[3.6rem] sm:rtl:text-[5.4rem] lg:rtl:text-[6.6rem]"
+            className="display-title mt-5 mb-5 text-[3.6rem] min-[400px]:text-[4.2rem] lg:mt-6 lg:mb-6 sm:text-[6.5rem] lg:text-[8.6rem] rtl:text-[3.6rem] sm:rtl:text-[5.4rem] lg:rtl:text-[6.6rem]"
           />
 
           <p
@@ -100,7 +117,7 @@ export function Hero() {
         {/* Straight-edged stamp, anchored to the reading-end corner */}
         <div
           {...rise(0.6)}
-          className="animate-rise absolute end-5 bottom-16 hidden border border-cream/55 px-6 py-5 text-center sm:end-8 md:block xl:end-0"
+          className="animate-rise absolute end-8 bottom-16 hidden border border-cream/55 px-6 py-5 text-center lg:block xl:end-0"
         >
           <span className="flex items-baseline justify-center gap-2">
             <span className="text-[0.65rem] font-bold tracking-[0.18em] uppercase rtl:text-xs rtl:tracking-normal">
