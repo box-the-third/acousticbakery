@@ -31,7 +31,7 @@ export function Catering() {
         {/* Airline catering feature */}
         <Reveal delay={0.1} className="mt-14">
           <article className="grid grid-cols-1 border border-cream/25 lg:grid-cols-2">
-            <div className="relative aspect-[4/3] bg-ink-night lg:aspect-auto">
+            <div className="relative aspect-[4/3] bg-ink lg:aspect-auto">
               <Image
                 src={asset("/images/gallery-canapes.webp")}
                 alt="Canapés prepared for in-flight service"
@@ -41,7 +41,7 @@ export function Catering() {
               />
             </div>
             <div className="flex flex-col p-7 sm:p-10 lg:p-14">
-              <p className="flex items-center gap-3 text-coral">
+              <p className="flex items-center gap-3 text-gold">
                 <Plane />
                 <span className="text-xs font-bold tracking-[0.16em] uppercase rtl:text-base rtl:tracking-normal">
                   {airline.label}
@@ -52,7 +52,7 @@ export function Catering() {
               <ul className="mt-8 border-t border-cream/20">
                 {airline.points.map((point) => (
                   <li key={point} className="flex items-center gap-4 border-b border-cream/20 py-3.5 text-sm">
-                    <span aria-hidden className="size-1.5 shrink-0 bg-coral" />
+                    <span aria-hidden className="size-1.5 shrink-0 bg-gold" />
                     {point}
                   </li>
                 ))}
@@ -73,7 +73,7 @@ export function Catering() {
               className="border-cream/25 max-lg:border-b sm:max-lg:odd:border-e max-sm:last:border-b-0 sm:max-lg:[&:nth-child(n+3)]:border-b-0 lg:border-e lg:last:border-e-0"
             >
               <Reveal delay={index * 0.08} className="h-full p-7">
-                <span className="display-title text-2xl text-coral">0{index + 1}</span>
+                <span className="display-title text-2xl text-gold">0{index + 1}</span>
                 <h3 className="display-title mt-5 text-3xl">{service.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-cream/65">{service.body}</p>
               </Reveal>

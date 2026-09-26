@@ -1,17 +1,15 @@
 @import "tailwindcss";
 
-/* Brand tokens: brand guideline colours plus the warm paper palette the
-   client approved in the reference design. */
+/* Brand tokens: only the colours in the brand guidelines, plus white as
+   shown in its colour-usage page. Gold is an accent: as text it is used on
+   slate only (it is too faint on light backgrounds). */
 @theme {
-  --color-ink: #4b585a; /* Pantone 445 C */
-  --color-ink-deep: #3b4648;
-  --color-ink-night: #222d2f;
-  --color-mist: #b1bec6; /* Pantone 7542 C */
-  --color-paper: #f5f0e6;
-  --color-shell: #e6ded0;
-  --color-cream: #f7f4ed;
-  --color-coral: #d98e78;
-  --color-olive: #7f8e7d;
+  --color-ink: #4b585a; /* Pantone 445 C, primary */
+  --color-mist: #b1bec6; /* Pantone 7542 C, primary */
+  --color-gold: #d4c194; /* Pantone 467 C, complementary */
+  --color-shell: #e7e5df; /* Pantone 9043 C, complementary */
+  --color-paper: #ffffff;
+  --color-cream: #ffffff;
 
   --font-display: var(--font-vonca), "Vonca", ui-sans-serif, sans-serif;
   --font-sans: var(--font-albert), "Albert Sans", ui-sans-serif, system-ui, sans-serif;
@@ -49,13 +47,18 @@
   }
 
   ::selection {
-    background-color: var(--color-coral);
-    color: var(--color-ink-night);
+    background-color: var(--color-gold);
+    color: var(--color-ink);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-coral);
+    outline: 2px solid var(--color-ink);
     outline-offset: 3px;
+  }
+
+  .bg-ink :focus-visible,
+  footer :focus-visible {
+    outline-color: var(--color-gold);
   }
 
   [id] {
@@ -201,7 +204,7 @@ html.is-booting-locale body {
   }
 
   .btn-light:hover {
-    background: var(--color-coral);
+    background: var(--color-gold);
   }
 
   .btn-ghost-light {
@@ -220,7 +223,8 @@ html.is-booting-locale body {
   }
 
   .btn-dark:hover {
-    background: var(--color-ink-night);
+    background: var(--color-gold);
+    color: var(--color-ink);
   }
 
   .btn-ghost-dark {

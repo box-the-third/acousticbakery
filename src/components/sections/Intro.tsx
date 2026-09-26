@@ -17,7 +17,7 @@ export function Intro() {
           titleClassName="max-w-md text-5xl sm:text-6xl lg:text-[6rem]"
         />
         <Reveal delay={0.15} className="max-w-2xl lg:pt-6">
-          <p className="text-xl leading-normal text-ink-night/80 sm:text-2xl">{t.intro.body}</p>
+          <p className="text-xl leading-normal text-ink/80 sm:text-2xl">{t.intro.body}</p>
           <a href="#story" className="text-link mt-8 text-ink">
             {t.intro.link}
             <ArrowUpRight />

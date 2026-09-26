@@ -22,7 +22,7 @@ export function Story() {
           <div className="relative pb-24 sm:pb-28">
             <div
               ref={frameRef}
-              className="relative ms-auto aspect-[4/5] w-[86%] overflow-hidden bg-ink-night"
+              className="relative ms-auto aspect-[4/5] w-[86%] overflow-hidden bg-ink"
             >
               <m.div style={{ y: imageY }} className="absolute -inset-y-[8%] inset-x-0">
                 <Image
@@ -59,13 +59,13 @@ export function Story() {
           <ol className="relative mt-14 border-s border-ink/25">
             {t.story.timeline.map((entry, index) => (
               <li key={entry.title} className="relative ps-8 pb-11 last:pb-0 sm:ps-12">
-                <span aria-hidden className="absolute -start-[5px] top-2 size-[9px] bg-coral" />
+                <span aria-hidden className="absolute -start-[5px] top-2 size-[9px] bg-gold" />
                 <Reveal delay={index * 0.08}>
-                  <p className="display-title text-3xl text-coral sm:text-4xl">{entry.year}</p>
+                  <p className="display-title text-3xl text-ink sm:text-4xl">{entry.year}</p>
                   <h3 className="mt-3 text-xs font-bold tracking-[0.16em] text-ink uppercase rtl:text-base rtl:tracking-normal">
                     {entry.title}
                   </h3>
-                  <p className="mt-3 max-w-xl leading-relaxed text-ink-night/75">{entry.body}</p>
+                  <p className="mt-3 max-w-xl leading-relaxed text-ink/75">{entry.body}</p>
                 </Reveal>
               </li>
             ))}

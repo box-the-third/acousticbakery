@@ -61,7 +61,7 @@ export function Clients() {
             titleClassName="max-w-2xl text-5xl sm:text-6xl lg:text-[5.4rem]"
           />
           <Reveal delay={0.15}>
-            <p className="max-w-sm leading-relaxed text-ink-night/70">{t.clients.body}</p>
+            <p className="max-w-sm leading-relaxed text-ink/70">{t.clients.body}</p>
           </Reveal>
         </div>
 
@@ -69,9 +69,9 @@ export function Clients() {
           {t.clients.groups.map((group, index) => (
             <li key={group.title} className="border-e border-b border-ink/25">
               <Reveal delay={(index % 3) * 0.08} className="h-full p-7">
-                <span className="display-title text-xl text-coral">0{index + 1}</span>
+                <span className="display-title text-xl text-ink/60">0{index + 1}</span>
                 <h3 className="display-title mt-4 text-3xl text-ink">{group.title}</h3>
-                <p className="mt-2 text-sm text-ink-night/65">{group.body}</p>
+                <p className="mt-2 text-sm text-ink/65">{group.body}</p>
               </Reveal>
             </li>
           ))}
@@ -96,7 +96,7 @@ export function Clients() {
                   sizes="(min-width: 1024px) 25vw, 50vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                 />
-                <span className="absolute inset-0 bg-ink-night/0 transition-colors duration-500 group-hover:bg-ink-night/20" />
+                <span className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/20" />
               </button>
             </li>
           ))}
@@ -110,7 +110,7 @@ export function Clients() {
             role="dialog"
             aria-modal="true"
             aria-label={t.clients.photos[open]}
-            className="fixed inset-0 z-[70] flex items-center justify-center bg-ink-night/95 p-4 sm:p-10"
+            className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/95 p-4 sm:p-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

@@ -41,7 +41,7 @@ export function Menu() {
             titleClassName="max-w-xl text-5xl sm:text-6xl lg:text-[5.4rem]"
           />
           <Reveal delay={0.15}>
-            <p className="max-w-sm leading-relaxed text-ink-night/70">{t.menu.body}</p>
+            <p className="max-w-sm leading-relaxed text-ink/70">{t.menu.body}</p>
           </Reveal>
         </div>
 
@@ -74,7 +74,7 @@ export function Menu() {
                   <span className="display-title text-3xl sm:text-4xl">{t.menu.categories[c.id]}</span>
                   <span
                     aria-hidden
-                    className={`absolute inset-x-0 -bottom-px h-[3px] bg-coral transition-transform duration-500 ${
+                    className={`absolute inset-x-0 -bottom-px h-[3px] bg-ink transition-transform duration-500 ${
                       selected ? "scale-x-100" : "scale-x-0"
                     }`}
                   />
@@ -120,12 +120,12 @@ export function Menu() {
                       {formatPrice(item.price)}
                     </p>
                   </div>
-                  <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-night/65">
+                  <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/65">
                     {item.description[locale]}
                   </p>
                   {item.signature ? (
-                    <span className="mt-3 inline-flex items-center gap-2 text-[0.65rem] font-bold tracking-[0.16em] text-coral uppercase rtl:text-xs rtl:tracking-normal">
-                      <span aria-hidden className="size-1.5 bg-coral" />
+                    <span className="mt-3 inline-flex items-center gap-2 text-[0.65rem] font-bold tracking-[0.16em] text-ink uppercase rtl:text-xs rtl:tracking-normal">
+                      <span aria-hidden className="size-1.5 bg-gold" />
                       {t.menu.signature}
                     </span>
                   ) : null}
@@ -135,7 +135,7 @@ export function Menu() {
           </AnimatePresence>
         </div>
 
-        <p className="mt-10 text-xs leading-relaxed text-ink-night/55">{t.menu.note}</p>
+        <p className="mt-10 text-xs leading-relaxed text-ink/55">{t.menu.note}</p>
       </div>
     </section>
   );

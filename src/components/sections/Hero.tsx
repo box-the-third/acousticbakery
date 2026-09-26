@@ -75,7 +75,7 @@ export function Hero() {
       {/* Legibility wash, heavier on the reading-start side */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 hidden lg:block bg-[linear-gradient(90deg,rgb(34_45_47/0.8),rgb(34_45_47/0.4)_50%,rgb(34_45_47/0.15)),linear-gradient(180deg,transparent_50%,rgb(34_45_47/0.75))] rtl:bg-[linear-gradient(270deg,rgb(34_45_47/0.8),rgb(34_45_47/0.4)_50%,rgb(34_45_47/0.15)),linear-gradient(180deg,transparent_50%,rgb(34_45_47/0.75))]"
+        className="absolute inset-0 -z-10 hidden lg:block bg-[linear-gradient(90deg,rgb(75_88_90/0.8),rgb(75_88_90/0.4)_50%,rgb(75_88_90/0.15)),linear-gradient(180deg,transparent_50%,rgb(75_88_90/0.75))] rtl:bg-[linear-gradient(270deg,rgb(75_88_90/0.8),rgb(75_88_90/0.4)_50%,rgb(75_88_90/0.15)),linear-gradient(180deg,transparent_50%,rgb(75_88_90/0.75))]"
       />
 
       <m.div

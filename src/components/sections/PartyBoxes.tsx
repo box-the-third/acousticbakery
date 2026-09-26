@@ -32,7 +32,7 @@ export function PartyBoxes() {
             titleClassName="max-w-2xl text-5xl sm:text-6xl lg:text-[5.4rem]"
           />
           <Reveal delay={0.15} className="max-w-sm">
-            <p className="leading-relaxed text-ink-night/75">{t.boxes.body}</p>
+            <p className="leading-relaxed text-ink/75">{t.boxes.body}</p>
             <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" className="btn btn-dark mt-6">
               {t.boxes.orderAll}
               <ArrowUpRight />
@@ -48,10 +48,10 @@ export function PartyBoxes() {
               className="border-ink/25 py-6 max-sm:border-b max-sm:last:border-b-0 sm:border-e sm:px-6 sm:first:ps-0 sm:last:border-e-0"
             >
               <Reveal delay={index * 0.08} className="flex gap-4">
-                <span className="display-title text-2xl text-coral">0{index + 1}</span>
+                <span className="display-title text-2xl text-ink/60">0{index + 1}</span>
                 <span>
                   <span className="block font-bold text-ink">{step.title}</span>
-                  <span className="mt-1 block text-sm text-ink-night/65">{step.body}</span>
+                  <span className="mt-1 block text-sm text-ink/65">{step.body}</span>
                 </span>
               </Reveal>
             </li>
@@ -82,7 +82,7 @@ export function PartyBoxes() {
                   </div>
                   <div className="flex flex-1 flex-col p-6">
                     <h3 className="display-title text-3xl text-ink">{box.title}</h3>
-                    <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-night/70">{box.body}</p>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-ink/70">{box.body}</p>
                     <span className="text-link mt-6 self-start text-ink">
                       {t.boxes.order}
                       <ArrowUpRight />

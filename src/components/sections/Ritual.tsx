@@ -26,7 +26,7 @@ export function Ritual() {
             titleClassName="max-w-2xl text-5xl sm:text-6xl lg:text-[5.4rem]"
           />
           <Reveal delay={0.15}>
-            <p className="mt-7 max-w-lg text-lg leading-relaxed text-ink-night/80">{t.ritual.body}</p>
+            <p className="mt-7 max-w-lg text-lg leading-relaxed text-ink/80">{t.ritual.body}</p>
           </Reveal>
         </div>
       </div>

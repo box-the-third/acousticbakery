@@ -31,7 +31,7 @@ export function Purpose() {
               }`}
             >
               <p className="flex items-baseline gap-4">
-                <span className="display-title text-2xl text-coral">0{index + 1}</span>
+                <span className="display-title text-2xl text-ink/60">0{index + 1}</span>
                 <span className="text-xs font-bold tracking-[0.16em] text-ink uppercase rtl:text-base rtl:tracking-normal">
                   {column.label}
                 </span>
@@ -39,7 +39,7 @@ export function Purpose() {
               <h2 className="display-title mt-8 max-w-lg text-4xl text-ink sm:text-5xl lg:text-[3.6rem]">
                 {column.statement}
               </h2>
-              <p className="mt-7 max-w-md leading-relaxed text-ink-night/75">{column.body}</p>
+              <p className="mt-7 max-w-md leading-relaxed text-ink/75">{column.body}</p>
             </Reveal>
           ))}
         </div>

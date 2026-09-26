@@ -54,7 +54,7 @@ export function Visit() {
           <span lang="en" dir="ltr" className="block text-start">
             {t.visit.addressEn}
           </span>
-          <span lang="ar" dir="rtl" className="mt-1 block text-start font-[system-ui,sans-serif] text-ink-night/70">
+          <span lang="ar" dir="rtl" className="mt-1 block text-start font-[system-ui,sans-serif] text-ink/70">
             {t.visit.addressAr}
           </span>
         </a>
@@ -82,14 +82,14 @@ export function Visit() {
             titleClassName="max-w-xl text-5xl sm:text-6xl lg:text-[5rem]"
           />
           <Reveal delay={0.1}>
-            <p className="mt-7 max-w-md text-lg leading-relaxed text-ink-night/75">{t.visit.body}</p>
+            <p className="mt-7 max-w-md text-lg leading-relaxed text-ink/75">{t.visit.body}</p>
           </Reveal>
 
           <Reveal delay={0.15}>
             <dl className="mt-10 border-t border-ink/25">
               {details.map((detail) => (
                 <div key={detail.label} className="flex gap-5 border-b border-ink/25 py-5">
-                  <span className="mt-0.5 text-coral">{detail.icon}</span>
+                  <span className="mt-0.5 text-ink">{detail.icon}</span>
                   <div>
                     <dt className={labelClass}>{detail.label}</dt>
                     <dd className="mt-2 font-semibold text-ink">{detail.content}</dd>
@@ -111,7 +111,7 @@ export function Visit() {
             className="border border-ink/25 bg-paper p-7 sm:p-10"
           >
             <h3 className="display-title text-4xl text-ink sm:text-5xl">{t.enquire.title}</h3>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-night/70">{t.enquire.body}</p>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-ink/70">{t.enquire.body}</p>
 
             <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
               <label className="block">

@@ -50,12 +50,12 @@ export function Offerings() {
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                     />
-                    <div className="absolute end-3 bottom-3 size-20 overflow-hidden border-4 border-ink shadow-[0_8px_20px_rgb(21_28_30/0.3)] transition-transform duration-500 group-hover:-translate-y-1">
+                    <div className="absolute end-3 bottom-3 size-20 overflow-hidden border-4 border-ink shadow-[0_8px_20px_rgb(75_88_90/0.35)] transition-transform duration-500 group-hover:-translate-y-1">
                       <Image src={asset(image.detail)} alt="" fill sizes="80px" className="object-cover" />
                     </div>
                   </div>
                   <div className="px-5 pt-6 pb-8">
-                    <span className="display-title block text-2xl text-coral">0{index + 1}</span>
+                    <span className="display-title block text-2xl text-gold">0{index + 1}</span>
                     <h3 className="display-title mt-4 text-4xl">{item.title}</h3>
                     <p className="mt-3 text-sm leading-relaxed text-cream/65">{item.body}</p>
                   </div>

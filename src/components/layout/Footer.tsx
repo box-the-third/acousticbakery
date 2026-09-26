@@ -18,7 +18,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-ink-night text-paper">
+    <footer className="bg-ink text-paper">
       <div className="container-page py-16 sm:py-20">
         <div className="flex flex-col gap-12 border-b border-cream/20 pb-14 lg:flex-row lg:items-end lg:justify-between">
           <div>

@@ -148,7 +148,7 @@ export function Navbar() {
               tabIndex={-1}
               aria-label={t.nav.closeMenu}
               onClick={() => setOpen(false)}
-              className="absolute inset-0 bg-ink-night/50"
+              className="absolute inset-0 bg-ink/50"
               variants={{ open: { opacity: 1 }, closed: { opacity: 0 } }}
               transition={{ duration: 0.4 }}
             />
@@ -194,7 +194,7 @@ export function Navbar() {
                       onClick={() => setOpen(false)}
                       className="flex items-baseline gap-4 border-b border-paper/15 py-4"
                     >
-                      <span className="font-display text-sm text-coral tabular-nums">0{index + 1}</span>
+                      <span className="font-display text-sm text-gold tabular-nums">0{index + 1}</span>
                       <span className="display-title text-3xl">{link.label}</span>
                     </a>
                   </m.li>

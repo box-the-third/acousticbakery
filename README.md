@@ -62,7 +62,7 @@ public/
 
 ## Brand notes
 
-- Colours: Pantone 445 C `#4b585a` and 7542 C `#b1bec6`, with the warm paper `#f5f0e6`, shell `#e6ded0` and coral `#d98e78` from the approved reference design.
+- Colours: brand guideline palette only. Primary Pantone 445 C `#4b585a` and 7542 C `#b1bec6`; complementary 467 C `#d4c194` and 9043 C `#e7e5df`; plus white. Gold is an accent: as text it is only used on slate, since it is too faint on light backgrounds.
 - Straight lines throughout: square buttons, cards and frames, no rounded corners.
 - Fonts: Vonca (display) and Albert Sans (body). Neither includes Arabic glyphs, so Arabic is set in Readex Pro (display) and IBM Plex Sans Arabic (body).
 - The logo and isotype are used from the official artwork and are never mirrored in RTL.

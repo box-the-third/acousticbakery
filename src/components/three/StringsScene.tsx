@@ -125,7 +125,7 @@ export default function StringsScene({ onReady }: { onReady?: () => void }) {
     scene.add(ambient, key, fill, rim);
 
     const slate = new MeshStandardMaterial({ color: SLATE, metalness: 0.25, roughness: 0.42 });
-    const brass = new MeshStandardMaterial({ color: 0xc8ae72, metalness: 0.45, roughness: 0.3 });
+    const brass = new MeshStandardMaterial({ color: GOLD, metalness: 0.45, roughness: 0.3 });
 
     const rig = new Group(); // receives pointer tilt and idle float
     const mark = new Group(); // the isotype itself, centred on the origin
