@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/* Brand tokens, from the Acoustic brand guidelines */
+@theme {
+  --color-ink: #4b585a; /* Pantone 445 C */
+  --color-ink-deep: #3b4648;
+  --color-ink-night: #2f3839;
+  --color-mist: #b1bec6; /* Pantone 7542 C */
+  --color-mist-soft: #d7dee2;
+  --color-gold: #d4c194; /* Pantone 467 C */
+  --color-gold-deep: #9c8656;
+  --color-stone: #e7e5df; /* Pantone 9043 C */
+  --color-cream: #f5f3ef;
+  --color-paper: #fbfaf8;
+
+  --font-display: var(--font-vonca), "Vonca", ui-serif, Georgia, serif;
+  --font-sans: var(--font-albert), "Albert Sans", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Arabic typography. The brand fonts are Latin only, so Arabic is paired with
+   a light geometric display face and a clean humanist sans. */
+:root:lang(ar) {
+  --font-display: var(--font-readex), var(--font-vonca), sans-serif;
+  --font-sans: var(--font-plex-arabic), var(--font-albert), sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    background-color: var(--color-paper);
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: opacity 220ms var(--ease-soft);
+  }
+
+  :root:lang(ar) body {
+    line-height: 1.75;
+  }
+
+  ::selection {
+    background-color: var(--color-mist);
+    color: var(--color-ink-night);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-deep);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  [id] {
+    scroll-margin-top: 5.5rem;
+  }
+}
+
+@keyframes scrollcue {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(220%);
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-rtl {
+  to {
+    transform: translateX(50%);
+  }
+}
+
+/* Language switch cross-fade */
+html.is-switching-locale body {
+  opacity: 0;
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+  }
+
+  :root:lang(ar) .font-display {
+    letter-spacing: 0;
+  }
+
+  /* Latin eyebrow labels are tracked out; Arabic must never be letter-spaced. */
+  .eyebrow {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  :root:lang(ar) .eyebrow {
+    font-size: 0.85rem;
+    letter-spacing: 0;
+  }
+
+  .container-page {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-inline: 3rem;
+    }
+  }
+
+  .pattern-isotype {
+    background-image: url("/brand/isotype-white.webp");
+    background-size: 150px auto;
+    background-repeat: space;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
