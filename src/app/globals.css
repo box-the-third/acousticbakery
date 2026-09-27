@@ -144,7 +144,7 @@ html.is-booting-locale body {
     line-height: 1.25;
   }
 
-  /* Uppercase label with a leading hairline. */
+  /* Uppercase label. */
   .eyebrow {
     display: inline-flex;
     align-items: center;
@@ -154,14 +154,6 @@ html.is-booting-locale body {
     line-height: 1;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-  }
-
-  .eyebrow::before {
-    content: "";
-    width: 2.1rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.55;
   }
 
   :root:lang(ar) .eyebrow {

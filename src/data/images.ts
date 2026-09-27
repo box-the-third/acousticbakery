@@ -55,11 +55,11 @@ export const AIRLINE_PHOTO = food(
 
 /** "Moments from our tables" gallery. */
 export const GALLERY_PHOTOS: Photo[] = [
-  food("bakery-display", 773, 1200, "A bakery counter of cakes and cookies", "كاونتر مخبز بالكعك والكوكيز"),
-  food("viennoiserie-rack", 900, 1026, "Viennoiserie cooling on a rack", "معجنات تبرد على الرف"),
+  food("bakery-display", 801, 1200, "A bakery counter of cakes and cookies", "كاونتر مخبز بالكعك والكوكيز"),
+  food("viennoiserie-rack", 900, 1048, "Viennoiserie cooling on a rack", "معجنات تبرد على الرف"),
   food("pistachio-croissants", 900, 1039, "Pistachio croissants", "كرواسون بالفستق"),
   food("proofing-rack", 773, 1200, "Croissants proofing on the rack", "كرواسون يتخمّر على الرف"),
-  food("chocolate-croissant", 900, 1006, "A chocolate croissant", "كرواسون بالشوكولاتة"),
+  food("chocolate-croissant", 900, 1029, "A chocolate croissant", "كرواسون بالشوكولاتة"),
   food("babka-swirl", 837, 1200, "A sugared babka swirl", "بابكا ملفوفة بالسكر"),
   food("piping-eclairs", 805, 1200, "Cream piped onto pastries", "كريمة تُزيّن المعجنات"),
   food("glazing-croissants", 880, 640, "Croissants brushed with egg wash", "كرواسون يُدهن قبل الخَبز"),
