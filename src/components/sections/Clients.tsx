@@ -8,22 +8,73 @@ import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Chevron, Close } from "@/components/ui/Icons";
 import { asset } from "@/lib/asset";
+import { GALLERY_PHOTOS, type Photo } from "@/data/images";
 
-/** Gallery photos, in the same order as the translated captions. */
-const PHOTOS = [
-  { src: "/images/gallery-canapes.webp", span: "row-span-2" },
-  { src: "/images/gallery-dessert-stands.webp", span: "row-span-2" },
-  { src: "/images/gallery-breads.webp", span: "col-span-2" },
-  { src: "/images/offer-gifts.webp", span: "col-span-2" },
-  { src: "/images/gallery-buffet.webp", span: "row-span-2" },
-  { src: "/images/offer-pastries.webp", span: "row-span-2" },
-  { src: "/images/offer-desserts.webp", span: "row-span-2" },
-  { src: "/images/offer-breads.webp", span: "row-span-2" },
-];
+const PHOTOS = GALLERY_PHOTOS;
+
+type Indexed = { photo: Photo; index: number };
+
+/**
+ * Splits photos into columns of near-equal height: each photo goes to the
+ * currently shortest column, keeping the original order within a column.
+ */
+function balance(count: number): Indexed[][] {
+  const columns: Indexed[][] = Array.from({ length: count }, () => []);
+  const heights = new Array(count).fill(0);
+  PHOTOS.forEach((photo, index) => {
+    const shortest = heights.indexOf(Math.min(...heights));
+    columns[shortest].push({ photo, index });
+    heights[shortest] += photo.height / photo.width;
+  });
+  return columns;
+}
+
+const mobileColumns = balance(2);
+const desktopColumns = balance(4);
+
+function GalleryColumn({
+  column,
+  locale,
+  onOpen,
+}: {
+  column: Indexed[];
+  locale: "en" | "ar";
+  onOpen: (index: number) => void;
+}) {
+  return (
+    <ul className="flex flex-col gap-2 lg:gap-3">
+      {column.map(({ photo, index }, position) => {
+        const last = position === column.length - 1;
+        return (
+          <li key={photo.src} className={last ? "relative min-h-40 flex-1" : ""}>
+            <button
+              type="button"
+              onClick={() => onOpen(index)}
+              className={`group relative block w-full overflow-hidden bg-shell ${last ? "h-full" : ""}`}
+              aria-label={photo.alt[locale]}
+            >
+              <Image
+                src={asset(photo.src)}
+                alt={photo.alt[locale]}
+                width={photo.width}
+                height={photo.height}
+                sizes="(min-width: 1024px) 25vw, 50vw"
+                className={`w-full transition-transform duration-700 group-hover:scale-[1.05] ${
+                  last ? "h-full min-h-40 object-cover" : "h-auto"
+                }`}
+              />
+              <span className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/20" />
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
 
 /** Who we serve, as a ruled grid of client types, plus a photo gallery with a lightbox. */
 export function Clients() {
-  const { t, dir } = useLanguage();
+  const { t, dir, locale } = useLanguage();
   const [open, setOpen] = useState<number | null>(null);
 
   const close = useCallback(() => setOpen(null), []);
@@ -80,27 +131,18 @@ export function Clients() {
         <Reveal>
           <h3 className="eyebrow mt-20 text-ink">{t.clients.gallery}</h3>
         </Reveal>
-        <ul className="mt-8 grid auto-rows-[9rem] grid-cols-2 gap-2 sm:auto-rows-[11rem] lg:grid-cols-4 lg:gap-3">
-          {PHOTOS.map((photo, index) => (
-            <li key={photo.src} className={photo.span}>
-              <button
-                type="button"
-                onClick={() => setOpen(index)}
-                className="group relative block size-full overflow-hidden bg-shell"
-                aria-label={t.clients.photos[index]}
-              >
-                <Image
-                  src={asset(photo.src)}
-                  alt={t.clients.photos[index]}
-                  fill
-                  sizes="(min-width: 1024px) 25vw, 50vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-                />
-                <span className="absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/20" />
-              </button>
-            </li>
+        {/* Balanced masonry: photos keep their natural shape, and the last photo
+            in each column stretches so every column ends on one straight line. */}
+        <div className="mt-8 grid grid-cols-2 gap-2 lg:hidden">
+          {mobileColumns.map((column, c) => (
+            <GalleryColumn key={c} column={column} locale={locale} onOpen={setOpen} />
           ))}
-        </ul>
+        </div>
+        <div className="mt-8 hidden grid-cols-4 gap-3 lg:grid">
+          {desktopColumns.map((column, c) => (
+            <GalleryColumn key={c} column={column} locale={locale} onOpen={setOpen} />
+          ))}
+        </div>
       </div>
 
       <AnimatePresence>
@@ -109,7 +151,7 @@ export function Clients() {
             key="lightbox"
             role="dialog"
             aria-modal="true"
-            aria-label={t.clients.photos[open]}
+            aria-label={PHOTOS[open].alt[locale]}
             className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/95 p-4 sm:p-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -128,14 +170,14 @@ export function Clients() {
               <div className="relative flex-1">
                 <Image
                   src={asset(PHOTOS[open].src)}
-                  alt={t.clients.photos[open]}
+                  alt={PHOTOS[open].alt[locale]}
                   fill
                   sizes="90vw"
                   className="object-contain"
                 />
               </div>
               <figcaption className="mt-4 flex items-center justify-between gap-4 border-t border-cream/20 pt-4 text-sm text-cream/80">
-                <span>{t.clients.photos[open]}</span>
+                <span>{PHOTOS[open].alt[locale]}</span>
                 <span className="tabular-nums">
                   {open + 1} / {PHOTOS.length}
                 </span>

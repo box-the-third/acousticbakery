@@ -1,9 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState, type FormEvent } from "react";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { VAN_PHOTO } from "@/data/images";
+import { asset } from "@/lib/asset";
 import { ArrowUpRight, Clock, MapPin, Phone, Send } from "@/components/ui/Icons";
 import {
   ENQUIRY_EVENT,
@@ -73,7 +76,28 @@ export function Visit() {
   ];
 
   return (
-    <section id="visit" className="bg-shell py-24 sm:py-32">
+    <section
+      id="visit"
+      className="relative isolate overflow-hidden bg-shell pt-24 pb-[46vw] sm:pt-32 lg:pb-[17rem] xl:pb-[19rem]"
+    >
+      {/* The Acoustic van as the section background. Its mockup backdrop is tinted
+          to Pantone 9043 C, so it sits in the section with no visible edge. On wide
+          screens it sits under the form's side, leaving the address column clear. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 lg:start-auto lg:end-0 lg:w-[62%] lg:max-w-[1000px]"
+      >
+        <Image
+          src={asset(VAN_PHOTO.src)}
+          alt=""
+          width={1920}
+          height={1080}
+          sizes="(min-width: 1024px) 62vw, 100vw"
+          className="h-auto w-full"
+        />
+        <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-shell to-transparent" />
+      </div>
+
       <div className="container-page grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
         <div>
           <SectionHeading

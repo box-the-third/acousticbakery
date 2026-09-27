@@ -5,17 +5,11 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { asset } from "@/lib/asset";
-
-const IMAGES = [
-  { src: "/images/offer-pastries.webp", detail: "/images/gallery-canapes.webp", alt: "Golden pastries arranged as a sculpture" },
-  { src: "/images/offer-breads.webp", detail: "/images/gallery-breads.webp", alt: "Fresh artisan breads and loaves" },
-  { src: "/images/offer-desserts.webp", detail: "/images/gallery-dessert-stands.webp", alt: "Colourful desserts and petits fours" },
-  { src: "/images/offer-gifts.webp", detail: "/images/gallery-buffet.webp", alt: "A platter of macarons for gifting" },
-];
+import { OFFERING_PHOTOS } from "@/data/images";
 
 /** Four ruled columns of what we make, each with a photo and a square detail inset. */
 export function Offerings() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <section id="offerings" className="relative bg-ink py-24 text-paper sm:py-32">
@@ -34,7 +28,7 @@ export function Offerings() {
 
         <div className="grid grid-cols-1 border-y border-cream/25 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_1fr_0.9fr]">
           {t.offerings.items.map((item, index) => {
-            const image = IMAGES[index];
+            const photo = OFFERING_PHOTOS[index];
             return (
               <Reveal
                 key={item.title}
@@ -44,14 +38,14 @@ export function Offerings() {
                 <article className="group h-full transition-colors duration-300 hover:bg-cream/[0.06]">
                   <div className="relative aspect-[1.05] overflow-hidden bg-cream/5">
                     <Image
-                      src={asset(image.src)}
-                      alt={image.alt}
+                      src={asset(photo.main.src)}
+                      alt={photo.main.alt[locale]}
                       fill
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                     />
                     <div className="absolute end-3 bottom-3 size-20 overflow-hidden border-4 border-ink shadow-[0_8px_20px_rgb(75_88_90/0.35)] transition-transform duration-500 group-hover:-translate-y-1">
-                      <Image src={asset(image.detail)} alt="" fill sizes="80px" className="object-cover" />
+                      <Image src={asset(photo.detail.src)} alt="" fill sizes="80px" className="object-cover" />
                     </div>
                   </div>
                   <div className="px-5 pt-6 pb-8">

@@ -39,17 +39,21 @@ src/
   components/
     layout/            Navbar, LanguageSwitch, Footer, SkipLink
     sections/          Hero, Intro, Story, Purpose (mission and vision), Offerings,
-                       Ritual (3D), Menu, PartyBoxes, Catering, Clients, Visit
+                       Ritual (3D), Menu, PartyBoxes, Details (packaging), Catering,
+                       Clients (gallery), Visit
     motion/            MotionProvider, Reveal, StaggerText
     three/             StringsVisual (lazy loader), StringsScene (WebGL)
     ui/                SectionHeading, Isotype
   data/menu.ts         bilingual menu items and prices (edit here)
   data/site.ts         phone, WhatsApp, maps and online-ordering links
+  data/images.ts       every photo on the page, where it is used, and its EN/AR alt text
   i18n/                dictionary (all copy, EN + AR) and LanguageProvider
   fonts/               Vonca (brand display face, woff2)
 public/
   brand/               logo and isotype artwork, exported from Assets/
-  images/              photography and packaging mockups from the brand files
+  images/food/         food photography (Assets/Food Images, converted to WebP)
+  images/pack/         packaging, chef's hat and van mockups from the brand guidelines
+                       and packaging proposal
 ```
 
 ## Content to confirm before launch

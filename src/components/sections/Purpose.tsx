@@ -13,7 +13,7 @@ export function Purpose() {
   ];
 
   return (
-    <section id="purpose" aria-labelledby="purpose-title" className="bg-paper py-24 sm:py-32">
+    <section id="purpose" aria-labelledby="purpose-title" className="bg-shell py-24 sm:py-32">
       <div className="container-page">
         <Reveal>
           <p id="purpose-title" className="eyebrow text-ink">

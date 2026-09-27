@@ -7,10 +7,11 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ArrowUpRight, Plane } from "@/components/ui/Icons";
 import { openEnquiry } from "@/data/site";
 import { asset } from "@/lib/asset";
+import { AIRLINE_PHOTO } from "@/data/images";
 
 /** Catering: airline catering as the lead feature, then buffets and platters. */
 export function Catering() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const airline = t.catering.airline;
 
   return (
@@ -31,13 +32,13 @@ export function Catering() {
         {/* Airline catering feature */}
         <Reveal delay={0.1} className="mt-14">
           <article className="grid grid-cols-1 border border-cream/25 lg:grid-cols-2">
-            <div className="relative aspect-[4/3] bg-ink lg:aspect-auto">
+            <div className="relative aspect-[4/5] bg-ink sm:aspect-[4/3] lg:aspect-auto lg:min-h-[40rem]">
               <Image
-                src={asset("/images/gallery-canapes.webp")}
-                alt="Canapés prepared for in-flight service"
+                src={asset(AIRLINE_PHOTO.src)}
+                alt={AIRLINE_PHOTO.alt[locale]}
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover saturate-[0.85]"
+                className="object-cover"
               />
             </div>
             <div className="flex flex-col p-7 sm:p-10 lg:p-14">

@@ -9,6 +9,7 @@ import { Offerings } from "@/components/sections/Offerings";
 import { Ritual } from "@/components/sections/Ritual";
 import { Menu } from "@/components/sections/Menu";
 import { PartyBoxes } from "@/components/sections/PartyBoxes";
+import { Details } from "@/components/sections/Details";
 import { Catering } from "@/components/sections/Catering";
 import { Clients } from "@/components/sections/Clients";
 import { Visit } from "@/components/sections/Visit";
@@ -27,6 +28,7 @@ export default function HomePage() {
         <Ritual />
         <Menu />
         <PartyBoxes />
+        <Details />
         <Catering />
         <Clients />
         <Visit />

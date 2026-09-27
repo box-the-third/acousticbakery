@@ -7,20 +7,14 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ArrowUpRight } from "@/components/ui/Icons";
 import { ORDER_URL } from "@/data/site";
 import { asset } from "@/lib/asset";
-
-const BOX_IMAGES: Record<string, string> = {
-  celebration: "/images/gallery-dessert-stands.webp",
-  sandwich: "/images/gallery-buffet.webp",
-  sweet: "/images/offer-gifts.webp",
-  breakfast: "/images/gallery-breads.webp",
-};
+import { BOX_PHOTOS } from "@/data/images";
 
 /**
  * Party boxes ordered through the online ordering page: one tap on a box opens
  * ordering for pickup or delivery. Nothing is sold on this site itself.
  */
 export function PartyBoxes() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
 
   return (
     <section id="boxes" className="bg-shell py-24 sm:py-32">
@@ -70,8 +64,8 @@ export function PartyBoxes() {
                 >
                   <div className="relative aspect-[4/3] overflow-hidden bg-ink/10">
                     <Image
-                      src={asset(BOX_IMAGES[box.id])}
-                      alt=""
+                      src={asset(BOX_PHOTOS[box.id].src)}
+                      alt={BOX_PHOTOS[box.id].alt[locale]}
                       fill
                       sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
