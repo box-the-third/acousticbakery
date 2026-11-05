@@ -19,6 +19,17 @@ npm run dev
 
 Open http://localhost:3000. `npm run build` writes a static site to `out/`.
 
+## Deploying to Hostinger
+
+In hPanel, set the Node.js web app to:
+
+- **Framework / application type:** Next.js
+- **Node version:** 22
+- **Build command:** `npm run build`
+- **Output directory:** `out`
+
+The site is a static export, so there is no start command to run. `npm run build` uses webpack (`next build --webpack`) because Turbopack's PostCSS worker crashes in Hostinger's build environment.
+
 ## Deploying to GitHub Pages
 
 `.github/workflows/deploy.yml` builds and publishes the site on every push to `main`.

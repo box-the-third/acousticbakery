@@ -279,12 +279,6 @@ html.is-booting-locale body {
     }
   }
 
-  .pattern-isotype {
-    background-image: url("../assets/isotype-white.webp");
-    background-size: 150px auto;
-    background-repeat: space;
-  }
-
   .no-scrollbar {
     scrollbar-width: none;
   }
