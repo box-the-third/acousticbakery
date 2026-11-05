@@ -17,7 +17,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. `npm run build` writes a static site to `out/`.
+Open http://localhost:3000. Locally, `npm run build` writes a static site to `out/`.
 
 ## Deploying to Hostinger
 
@@ -25,10 +25,12 @@ In hPanel, set the Node.js web app to:
 
 - **Framework / application type:** Next.js
 - **Node version:** 22
-- **Build command:** `npm run build`
-- **Output directory:** `out`
+- **Build script:** `build`
+- **Output directory:** `.next`
 
-The site is a static export, so there is no start command to run. `npm run build` uses webpack (`next build --webpack`) because Turbopack's PostCSS worker crashes in Hostinger's build environment.
+Hostinger always builds Next.js apps as a standalone server. It wraps `next.config.ts` and replaces `output: "export"` with `output: "standalone"`, so no `out/` folder is produced there. The `export` setting is still what GitHub Pages uses.
+
+`npm run build` uses webpack (`next build --webpack`) because Turbopack's PostCSS worker crashed in Hostinger's build environment.
 
 ## Deploying to GitHub Pages
 
