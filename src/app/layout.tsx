@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { asset } from "@/lib/asset";
+import { BUSINESS, SITE_URL } from "@/data/site";
 import "./globals.css";
 
 // Only the two weights the design uses, subset to Latin (about 14 KB each).
@@ -48,18 +49,50 @@ const plexArabic = IBM_Plex_Sans_Arabic({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://acousticbakery.sa"),
-  title: "Acoustic Bakery & Pâtisserie | Riyadh",
+  metadataBase: new URL(`${SITE_URL}/`),
+  title: "Acoustic Bakery & Pâtisserie | Bakery & Café in Al Olaya, Riyadh",
   description:
-    "Acoustic Bakery & Pâtisserie on Olaya Street, Riyadh. Pastries, breads, coffee, party boxes, and catering, including airline catering.",
-  alternates: { languages: { en: "/", ar: "/" } },
+    "Acoustic Bakery & Pâtisserie on Olaya Street, Al Olaya, Riyadh. Fresh croissants, breads, healthy breakfast, specialty coffee and desserts, open daily 7 AM to 12 AM. Party boxes and catering, including airline catering.",
+  keywords: [
+    "bakery Riyadh",
+    "bakery Olaya",
+    "pâtisserie Riyadh",
+    "café Al Olaya",
+    "croissant Riyadh",
+    "breakfast Riyadh",
+    "party boxes Riyadh",
+    "airline catering Riyadh",
+    "مخبز الرياض",
+    "مخبز العليا",
+    "حلويات الرياض",
+    "أكوستيك",
+    BUSINESS.mapsListingName,
+  ],
+  applicationName: BUSINESS.name,
+  category: "Bakery",
+  alternates: { canonical: "/", languages: { en: "/", ar: "/", "x-default": "/" } },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
   openGraph: {
-    title: "Acoustic Bakery & Pâtisserie",
-    description: "Made for the pause. Olaya Street, Riyadh.",
-    images: [asset("/images/hero-sign.webp")],
+    title: "Acoustic Bakery & Pâtisserie, Riyadh",
+    description: "Made for the pause. Bakery, pâtisserie and café on Olaya Street, Al Olaya, Riyadh.",
+    url: "/",
+    siteName: BUSINESS.name,
+    images: [{ url: asset("/images/hero-sign.webp"), width: 1920, height: 1080, alt: "Acoustic Bakery & Pâtisserie storefront in Riyadh" }],
     locale: "en_US",
     alternateLocale: ["ar_SA"],
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Acoustic Bakery & Pâtisserie, Riyadh",
+    description: "Bakery, pâtisserie and café on Olaya Street, Al Olaya, Riyadh.",
+    images: [asset("/images/hero-sign.webp")],
+  },
+  other: {
+    "geo.region": "SA-01",
+    "geo.placename": "Riyadh",
+    "geo.position": `${BUSINESS.latitude};${BUSINESS.longitude}`,
+    ICBM: `${BUSINESS.latitude}, ${BUSINESS.longitude}`,
   },
 };
 

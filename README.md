@@ -72,7 +72,8 @@ public/
 ## Content to confirm before launch
 
 - **Menu:** `src/data/menu.ts` holds the café menu (items, Arabic names and SAR prices), transcribed from the bilingual Acoustic Café menu. Update prices there.
-- **Online ordering link:** `ORDER_URL` in `src/data/site.ts`. Every party box and "Order online" button opens it.
+- **Delivery app links:** paste Acoustic's store link for each app into `DELIVERY_APPS` in `src/data/site.ts`. A logo without a link shows as a plain badge. Party boxes are ordered on WhatsApp.
+- **Social links:** Instagram and WhatsApp live in `src/data/site.ts`.
 - **Party boxes, catering and client types:** copy lives in `src/i18n/dictionary.ts` (`boxes`, `catering`, `clients`).
 - **Opening hours and phone:** `visit.hours` in the dictionary, and `src/data/site.ts`.
 - **Domain:** `metadataBase` in `src/app/layout.tsx`.
@@ -83,6 +84,17 @@ public/
 - Straight lines throughout: square buttons, cards and frames, no rounded corners.
 - Fonts: Vonca (display) and Albert Sans (body). Neither includes Arabic glyphs, so Arabic is set in Readex Pro (display) and IBM Plex Sans Arabic (body).
 - The logo and isotype are used from the official artwork and are never mirrored in RTL.
+
+## Search and AI visibility
+
+Generated at build time from the site's own data, so they never drift from the page:
+
+- `/robots.txt` (`src/app/robots.ts`): open to all search engines and AI crawlers, with the sitemap.
+- `/sitemap.xml` (`src/app/sitemap.ts`).
+- `/llms.txt` (`src/app/llms.txt/route.ts`): a plain-text fact sheet for AI assistants: location, hours, full menu with prices, party boxes, catering, contact.
+- schema.org JSON-LD (`src/components/seo/StructuredData.tsx`): the business as a Bakery with address, coordinates, Google Maps listing, hours and the priced menu.
+
+The live domain is `SITE_URL` and the business details (Maps listing name, coordinates, hours) are `BUSINESS`, both in `src/data/site.ts`.
 
 ## Language
 

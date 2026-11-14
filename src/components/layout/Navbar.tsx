@@ -7,6 +7,7 @@ import { useLanguage } from "@/i18n/LanguageProvider";
 import { asset } from "@/lib/asset";
 import { Close } from "@/components/ui/Icons";
 import { LanguageSwitch } from "./LanguageSwitch";
+import { SocialLinks } from "@/components/ui/SocialLinks";
 
 export function Navbar() {
   const { t, dir } = useLanguage();
@@ -202,10 +203,13 @@ export function Navbar() {
               </m.ul>
 
               <m.div
-                className="mt-auto flex items-center gap-3 p-6 pt-10"
+                className="mt-auto flex flex-wrap items-center gap-3 p-6 pt-10"
                 variants={{ open: { opacity: 1 }, closed: { opacity: 0 } }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
+                <div className="mb-2 w-full">
+                  <SocialLinks />
+                </div>
                 <LanguageSwitch tone="dark" />
                 <a
                   href="#visit"

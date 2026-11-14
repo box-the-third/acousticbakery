@@ -4,15 +4,15 @@ import Image from "next/image";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ArrowUpRight } from "@/components/ui/Icons";
-import { ORDER_URL } from "@/data/site";
+import { ArrowUpRight, WhatsApp } from "@/components/ui/Icons";
+import { openEnquiry, whatsappLink } from "@/data/site";
 import { asset } from "@/lib/asset";
 import { BOX_PHOTOS } from "@/data/images";
 import { BOX_CATEGORIES } from "@/data/boxes";
 
 /**
- * Party boxes ordered through the online ordering page: one tap on any box opens
- * ordering for pickup or delivery. Nothing is sold on this site itself.
+ * Party boxes are ordered on WhatsApp: tapping a box opens a chat with the box
+ * already named. Nothing is sold on this site itself.
  */
 export function PartyBoxes() {
   const { t, locale } = useLanguage();
@@ -28,10 +28,10 @@ export function PartyBoxes() {
           />
           <Reveal delay={0.15} className="max-w-sm">
             <p className="leading-relaxed text-ink/75">{t.boxes.body}</p>
-            <a href={ORDER_URL} target="_blank" rel="noopener noreferrer" className="btn btn-dark mt-6">
+            <button type="button" onClick={() => openEnquiry("party")} className="btn btn-dark mt-6">
               {t.boxes.orderAll}
-              <ArrowUpRight />
-            </a>
+              <WhatsApp className="size-4" />
+            </button>
           </Reveal>
         </div>
 
@@ -78,7 +78,7 @@ export function PartyBoxes() {
                       {category.boxes.map((box) => (
                         <li key={box.id} className="border-b border-ink/15 last:border-b-0">
                           <a
-                            href={ORDER_URL}
+                            href={whatsappLink(t.boxes.whatsappMessage.replace("{box}", box.name[locale]))}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group flex items-start justify-between gap-6 py-4"

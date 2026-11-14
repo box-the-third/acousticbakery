@@ -7,9 +7,11 @@ import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { VAN_PHOTO } from "@/data/images";
 import { asset } from "@/lib/asset";
-import { ArrowUpRight, Clock, MapPin, Phone, Send } from "@/components/ui/Icons";
+import { ArrowUpRight, Clock, Instagram, MapPin, Phone, Send } from "@/components/ui/Icons";
 import {
   ENQUIRY_EVENT,
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_URL,
   MAPS_URL,
   PHONE_DISPLAY,
   PHONE_TEL,
@@ -73,6 +75,15 @@ export function Visit() {
       ),
     },
     { icon: <Clock />, label: t.visit.hoursLabel, content: <span>{t.visit.hours}</span> },
+    {
+      icon: <Instagram />,
+      label: t.social.instagram,
+      content: (
+        <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" dir="ltr" className="hover:underline">
+          {INSTAGRAM_HANDLE}
+        </a>
+      ),
+    },
   ];
 
   return (

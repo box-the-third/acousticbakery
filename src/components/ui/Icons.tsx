@@ -85,3 +85,24 @@ export function Chevron({ className = "size-5" }: IconProps) {
     </svg>
   );
 }
+
+/** Instagram glyph. Brand marks keep their round details; they are never mirrored. */
+export function Instagram({ className = "size-5" }: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+/** WhatsApp glyph: speech bubble with handset. */
+export function WhatsApp({ className = "size-5" }: IconProps) {
+  return (
+    <svg {...base} strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4l-4.5 1.1Z" />
+      <path d="M9 8.5c.2-.6.6-.9 1-.9h.5l1 2.1-.7.9c.5 1 1.3 1.8 2.3 2.3l.9-.7 2.1 1v.5c0 .4-.3.8-.9 1-2.6.5-6.9-3.7-6.2-6.2Z" />
+    </svg>
+  );
+}

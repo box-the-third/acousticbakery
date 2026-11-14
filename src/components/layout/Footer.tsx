@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { asset } from "@/lib/asset";
+import { SocialLinks } from "@/components/ui/SocialLinks";
+import { DeliveryApps } from "@/components/ui/DeliveryApps";
 
 export function Footer() {
   const { t } = useLanguage();
@@ -30,6 +32,20 @@ export function Footer() {
               className="h-auto w-64 sm:w-80"
             />
             <p className="display-title mt-8 max-w-md text-3xl text-cream/85">{t.footer.tagline}</p>
+            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-5">
+              <div>
+                <p className="mb-3 text-[0.65rem] font-bold tracking-[0.16em] text-cream/55 uppercase rtl:text-xs rtl:tracking-normal">
+                  {t.social.follow}
+                </p>
+                <SocialLinks />
+              </div>
+              <div>
+                <p className="mb-3 text-[0.65rem] font-bold tracking-[0.16em] text-cream/55 uppercase rtl:text-xs rtl:tracking-normal">
+                  {t.delivery.orderOn}
+                </p>
+                <DeliveryApps tone="dark" size="sm" />
+              </div>
+            </div>
           </div>
           <nav aria-label="Footer">
             <ul className="grid grid-cols-2 gap-x-12 gap-y-3 sm:grid-cols-3">

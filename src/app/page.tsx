@@ -13,10 +13,12 @@ import { Details } from "@/components/sections/Details";
 import { Catering } from "@/components/sections/Catering";
 import { Clients } from "@/components/sections/Clients";
 import { Visit } from "@/components/sections/Visit";
+import { StructuredData } from "@/components/seo/StructuredData";
 
 export default function HomePage() {
   return (
     <>
+      <StructuredData />
       <SkipLink />
       <Navbar />
       <main id="main">

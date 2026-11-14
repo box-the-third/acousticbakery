@@ -6,6 +6,7 @@ import { menu } from "@/data/menu";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { DeliveryApps } from "@/components/ui/DeliveryApps";
 
 /**
  * Read-only café menu. The menu's pages become tabs: a ruled vertical list on
@@ -161,6 +162,16 @@ export function Menu() {
             </AnimatePresence>
 
             <p className="mt-10 text-xs leading-relaxed text-ink/55">{t.menu.note}</p>
+
+            {/* Order the menu through the delivery apps */}
+            <Reveal className="mt-14 border-t border-ink/25 pt-10">
+              <p className="eyebrow text-ink">{t.delivery.eyebrow}</p>
+              <h3 className="display-title mt-4 text-3xl text-ink sm:text-4xl">{t.delivery.title}</h3>
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/65">{t.delivery.body}</p>
+              <div className="mt-6">
+                <DeliveryApps />
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>

@@ -105,7 +105,8 @@ const en = {
     body: "Birthdays, office mornings, family evenings. Pick a box, choose your time, and collect it or have it delivered to your door.",
     order: "Order",
     flavours: "Flavours",
-    orderAll: "Order online",
+    orderAll: "Order on WhatsApp",
+    whatsappMessage: "Hello Acoustic, I'd like to order the {box} party box.",
     steps: [
       { title: "Choose your box", body: "Sweet, savoury, or a little of everything." },
       { title: "Pick a time", body: "Order ahead for the day and hour you need it." },
@@ -197,6 +198,17 @@ const en = {
     messagePlaceholder: "Guests, timing, anything we should know",
     submit: "Send on WhatsApp",
     greeting: "Hello Acoustic, I'd like to enquire about",
+  },
+  delivery: {
+    eyebrow: "Delivery",
+    title: "Order Acoustic to your door.",
+    body: "Our menu is available on your favourite delivery apps.",
+    orderOn: "Order on",
+  },
+  social: {
+    follow: "Follow us",
+    instagram: "Instagram",
+    whatsapp: "WhatsApp",
   },
   footer: {
     tagline: "Exceptional food, meaningful experiences, beautifully crafted moments.",
@@ -307,7 +319,8 @@ const ar: Dictionary = {
     body: "أعياد الميلاد، وصباحات المكتب، وأمسيات العائلة. اختر صندوقك وحدد الوقت، ثم استلمه أو نوصله إلى بابك.",
     order: "اطلب",
     flavours: "النكهات",
-    orderAll: "اطلب أونلاين",
+    orderAll: "اطلب عبر واتساب",
+    whatsappMessage: "مرحبًا أكوستيك، أود طلب صندوق {box}.",
     steps: [
       { title: "اختر صندوقك", body: "حلو أو مالح أو قليل من كل شيء." },
       { title: "حدد الوقت", body: "اطلب مسبقًا لليوم والساعة التي تريدها." },
@@ -399,6 +412,17 @@ const ar: Dictionary = {
     messagePlaceholder: "عدد الضيوف، الوقت، وأي شيء نحتاج معرفته",
     submit: "أرسل عبر واتساب",
     greeting: "مرحبًا أكوستيك، أود الاستفسار عن",
+  },
+  delivery: {
+    eyebrow: "التوصيل",
+    title: "اطلب أكوستيك إلى بابك.",
+    body: "قائمتنا متوفرة على تطبيقات التوصيل المفضلة لديك.",
+    orderOn: "اطلب عبر",
+  },
+  social: {
+    follow: "تابعنا",
+    instagram: "إنستغرام",
+    whatsapp: "واتساب",
   },
   footer: {
     tagline: "طعام استثنائي، وتجارب ذات معنى، ولحظات مصنوعة بإتقان.",
