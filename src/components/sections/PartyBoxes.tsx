@@ -8,9 +8,10 @@ import { ArrowUpRight } from "@/components/ui/Icons";
 import { ORDER_URL } from "@/data/site";
 import { asset } from "@/lib/asset";
 import { BOX_PHOTOS } from "@/data/images";
+import { BOX_CATEGORIES } from "@/data/boxes";
 
 /**
- * Party boxes ordered through the online ordering page: one tap on a box opens
+ * Party boxes ordered through the online ordering page: one tap on any box opens
  * ordering for pickup or delivery. Nothing is sold on this site itself.
  */
 export function PartyBoxes() {
@@ -52,41 +53,61 @@ export function PartyBoxes() {
           ))}
         </ol>
 
-        <ul className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {t.boxes.items.map((box, index) => (
-            <li key={box.id}>
-              <Reveal delay={index * 0.08} className="h-full">
-                <a
-                  href={ORDER_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex h-full flex-col border border-ink/20 bg-paper transition-colors duration-300 hover:border-ink"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-ink/10">
+        {/* Savory and dessert boxes: one photo per category, every box links to ordering */}
+        <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {BOX_CATEGORIES.map((category, index) => {
+            const photo = BOX_PHOTOS[category.id];
+            return (
+              <Reveal key={category.id} delay={index * 0.1} className="h-full">
+                <article className="flex h-full flex-col border border-ink/20 bg-paper">
+                  <div className="relative aspect-[16/9] overflow-hidden bg-ink/10">
                     <Image
-                      src={asset(BOX_PHOTOS[box.id].src)}
-                      alt={BOX_PHOTOS[box.id].alt[locale]}
+                      src={asset(photo.src)}
+                      alt={photo.alt[locale]}
                       fill
-                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                      sizes="(min-width: 1024px) 50vw, 100vw"
+                      className="object-cover"
                     />
-                    <span className="absolute start-0 top-0 bg-ink px-3 py-2 text-[0.65rem] font-bold tracking-[0.14em] text-paper uppercase rtl:text-xs rtl:tracking-normal">
-                      {t.boxes.serves} {box.serves}
-                    </span>
                   </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <h3 className="display-title text-3xl text-ink">{box.title}</h3>
-                    <p className="mt-3 flex-1 text-sm leading-relaxed text-ink/70">{box.body}</p>
-                    <span className="text-link mt-6 self-start text-ink">
-                      {t.boxes.order}
-                      <ArrowUpRight />
-                    </span>
+                  <div className="flex flex-1 flex-col p-6 sm:p-8">
+                    <div className="flex items-baseline justify-between gap-4 border-b border-ink/25 pb-4">
+                      <h3 className="display-title text-3xl text-ink sm:text-4xl">{category.title[locale]}</h3>
+                      <span className="text-sm font-bold text-ink/50 tabular-nums">{category.boxes.length}</span>
+                    </div>
+                    <ul>
+                      {category.boxes.map((box) => (
+                        <li key={box.id} className="border-b border-ink/15 last:border-b-0">
+                          <a
+                            href={ORDER_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex items-start justify-between gap-6 py-4"
+                          >
+                            <span>
+                              <span className="block font-display text-xl font-semibold tracking-[-0.02em] text-ink rtl:tracking-normal">
+                                {box.name[locale]}
+                              </span>
+                              {box.flavours ? (
+                                <span className="mt-1 block text-sm leading-relaxed text-ink/65">
+                                  <span className="sr-only">{t.boxes.flavours}: </span>
+                                  {box.flavours.map((flavour) => flavour[locale]).join(" · ")}
+                                </span>
+                              ) : null}
+                            </span>
+                            <span className="mt-1 inline-flex shrink-0 items-center gap-1.5 text-xs font-bold tracking-[0.1em] text-ink/70 uppercase transition-colors group-hover:text-ink rtl:text-sm rtl:tracking-normal">
+                              {t.boxes.order}
+                              <ArrowUpRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:group-hover:-translate-x-0.5" />
+                            </span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </a>
+                </article>
               </Reveal>
-            </li>
-          ))}
-        </ul>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

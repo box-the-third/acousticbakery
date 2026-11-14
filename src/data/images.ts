@@ -37,13 +37,12 @@ export const OFFERING_PHOTOS = [
   },
 ];
 
-/** Party boxes, keyed by box id. */
-export const BOX_PHOTOS: Record<string, Photo> = {
-  celebration: food("pastry-spread", 900, 909, "A spread of pastries around a coffee", "تشكيلة معجنات حول فنجان قهوة"),
-  viennoiserie: food("croissant-tray", 900, 794, "A tray of freshly baked croissants", "صينية كرواسون طازج"),
-  sweet: food("dessert-cups", 900, 898, "Trays of layered dessert cups", "صواني أكواب حلويات متعددة الطبقات"),
-  breakfast: food("pastry-basket", 847, 1200, "A basket of breakfast pastries", "سلة معجنات الفطور"),
+/** Party boxes: one photo per category (savory, desserts). */
+export const BOX_PHOTOS: Record<"savory" | "desserts", Photo> = {
+  savory: food("croissant-tray", 900, 794, "A tray of freshly baked croissants", "صينية كرواسون طازج"),
+  desserts: food("dessert-cups", 900, 898, "Trays of layered dessert cups", "صواني أكواب حلويات متعددة الطبقات"),
 };
+
 
 export const AIRLINE_PHOTO = food(
   "airline-cabin",
@@ -72,6 +71,8 @@ export const GALLERY_PHOTOS: Photo[] = [
   food("cinnamon-tray", 803, 1200, "A tray of chocolate swirls", "صينية لفائف الشوكولاتة"),
   food("chocolate-drizzle", 898, 1200, "Croissants drizzled with chocolate", "كرواسون مغطى بالشوكولاتة"),
   food("croissants-served", 900, 587, "A chef carrying a tray of croissants", "طاهٍ يحمل صينية كرواسون"),
+  food("pastry-spread", 900, 909, "A spread of pastries around a coffee", "تشكيلة معجنات حول فنجان قهوة"),
+  food("pastry-basket", 847, 1200, "A basket of breakfast pastries", "سلة معجنات الفطور"),
 ];
 
 /** Brand mockups from the guidelines and packaging proposal. */
