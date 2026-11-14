@@ -2,29 +2,33 @@
 
 import { AnimatePresence, m } from "framer-motion";
 import { useId, useRef, useState, type KeyboardEvent } from "react";
-import { menu, type MenuCategoryId } from "@/data/menu";
+import { menu } from "@/data/menu";
 import { useLanguage } from "@/i18n/LanguageProvider";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-/** Read-only menu: underlined category tabs over a two-column ruled price list. */
+/**
+ * Read-only café menu. The menu's pages become tabs: a ruled vertical list on
+ * desktop, a scrolling row on mobile. Each page shows its sections as ruled price lists.
+ */
 export function Menu() {
   const { t, locale } = useLanguage();
-  const [active, setActive] = useState<MenuCategoryId>("bakery");
+  const [active, setActive] = useState(menu[0].id);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const baseId = useId();
-  const category = menu.find((c) => c.id === active) ?? menu[0];
+  const group = menu.find((g) => g.id === active) ?? menu[0];
 
   const formatPrice = (price: number) =>
     locale === "ar" ? `${price} ${t.menu.currency}` : `${t.menu.currency} ${price}`;
 
-  // Arrow-key navigation between tabs, mirrored for right-to-left reading.
+  // Arrow keys move between tabs: up/down for the vertical list, left/right
+  // (mirrored for right-to-left reading) for the mobile row.
   const onTabKeyDown = (event: KeyboardEvent, index: number) => {
-    const forward = locale === "ar" ? "ArrowLeft" : "ArrowRight";
-    const backward = locale === "ar" ? "ArrowRight" : "ArrowLeft";
+    const forward = ["ArrowDown", locale === "ar" ? "ArrowLeft" : "ArrowRight"];
+    const backward = ["ArrowUp", locale === "ar" ? "ArrowRight" : "ArrowLeft"];
     let next = index;
-    if (event.key === forward) next = (index + 1) % menu.length;
-    else if (event.key === backward) next = (index - 1 + menu.length) % menu.length;
+    if (forward.includes(event.key)) next = (index + 1) % menu.length;
+    else if (backward.includes(event.key)) next = (index - 1 + menu.length) % menu.length;
     else return;
     event.preventDefault();
     setActive(menu[next].id);
@@ -45,97 +49,120 @@ export function Menu() {
           </Reveal>
         </div>
 
-        <Reveal delay={0.1}>
-          <div
-            role="tablist"
-            aria-label={t.menu.eyebrow}
-            className="no-scrollbar mt-14 flex gap-8 overflow-x-auto border-b border-ink/25 sm:gap-12"
-          >
-            {menu.map((c, index) => {
-              const selected = c.id === active;
-              return (
-                <button
-                  key={c.id}
-                  ref={(node) => {
-                    tabRefs.current[index] = node;
-                  }}
-                  role="tab"
-                  type="button"
-                  id={`${baseId}-tab-${c.id}`}
-                  aria-selected={selected}
-                  aria-controls={`${baseId}-panel`}
-                  tabIndex={selected ? 0 : -1}
-                  onClick={() => setActive(c.id)}
-                  onKeyDown={(event) => onTabKeyDown(event, index)}
-                  className={`relative shrink-0 pb-4 transition-colors duration-300 ${
-                    selected ? "text-ink" : "text-ink/45 hover:text-ink/80"
-                  }`}
-                >
-                  <span className="display-title text-3xl sm:text-4xl">{t.menu.categories[c.id]}</span>
-                  <span
-                    aria-hidden
-                    className={`absolute inset-x-0 -bottom-px h-[3px] bg-ink transition-transform duration-500 ${
-                      selected ? "scale-x-100" : "scale-x-0"
-                    }`}
-                  />
-                </button>
-              );
-            })}
-          </div>
-        </Reveal>
-
-        <div
-          role="tabpanel"
-          id={`${baseId}-panel`}
-          aria-labelledby={`${baseId}-tab-${active}`}
-          className="min-h-[30rem] sm:min-h-[24rem]"
-        >
-          <AnimatePresence mode="wait">
-            <m.ul
-              key={active}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={{
-                hidden: {},
-                visible: { transition: { staggerChildren: 0.05 } },
-                exit: { opacity: 0, transition: { duration: 0.2 } },
-              }}
-              className="grid grid-cols-1 gap-x-16 md:grid-cols-2"
+        <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.75fr] lg:gap-16">
+          <Reveal delay={0.1} className="lg:sticky lg:top-28 lg:self-start">
+            <div
+              role="tablist"
+              aria-label={t.menu.eyebrow}
+              className="no-scrollbar -mx-5 flex gap-7 overflow-x-auto border-b border-ink/25 px-5 sm:mx-0 sm:px-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:border-t lg:border-b-0"
             >
-              {category.items.map((item) => (
-                <m.li
-                  key={item.id}
-                  variants={{
-                    hidden: { opacity: 0, y: 14 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-                  }}
-                  className="group border-b border-ink/20 py-7"
-                >
-                  <div className="flex items-baseline justify-between gap-6">
-                    <h3 className="font-display text-2xl font-semibold tracking-[-0.02em] text-ink rtl:tracking-normal">
-                      {item.name[locale]}
-                    </h3>
-                    <p className="shrink-0 text-sm font-bold tracking-wide text-ink tabular-nums">
-                      {formatPrice(item.price)}
-                    </p>
-                  </div>
-                  <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/65">
-                    {item.description[locale]}
-                  </p>
-                  {item.signature ? (
-                    <span className="mt-3 inline-flex items-center gap-2 text-[0.65rem] font-bold tracking-[0.16em] text-ink uppercase rtl:text-xs rtl:tracking-normal">
-                      <span aria-hidden className="size-1.5 bg-gold" />
-                      {t.menu.signature}
+              {menu.map((g, index) => {
+                const selected = g.id === active;
+                return (
+                  <button
+                    key={g.id}
+                    ref={(node) => {
+                      tabRefs.current[index] = node;
+                    }}
+                    role="tab"
+                    type="button"
+                    id={`${baseId}-tab-${g.id}`}
+                    aria-selected={selected}
+                    aria-controls={`${baseId}-panel`}
+                    tabIndex={selected ? 0 : -1}
+                    onClick={() => setActive(g.id)}
+                    onKeyDown={(event) => onTabKeyDown(event, index)}
+                    className={`relative flex shrink-0 items-baseline gap-4 pb-4 text-start transition-colors duration-300 lg:border-b lg:border-ink/25 lg:py-5 lg:ps-5 ${
+                      selected ? "text-ink" : "text-ink/45 hover:text-ink/80"
+                    }`}
+                  >
+                    <span className="hidden text-xs font-bold tabular-nums lg:inline">0{index + 1}</span>
+                    <span className="display-title text-2xl whitespace-nowrap lg:text-3xl lg:whitespace-normal">
+                      {g.title[locale]}
                     </span>
-                  ) : null}
-                </m.li>
-              ))}
-            </m.ul>
-          </AnimatePresence>
-        </div>
+                    {/* Active marker: underline on mobile, a bar on the reading-start edge on desktop */}
+                    <span
+                      aria-hidden
+                      className={`absolute inset-x-0 -bottom-px h-[3px] bg-ink transition-transform duration-500 lg:inset-x-auto lg:inset-y-0 lg:start-0 lg:bottom-auto lg:h-auto lg:w-[3px] ${
+                        selected ? "scale-100" : "scale-0"
+                      }`}
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          </Reveal>
 
-        <p className="mt-10 text-xs leading-relaxed text-ink/55">{t.menu.note}</p>
+          <div
+            role="tabpanel"
+            id={`${baseId}-panel`}
+            aria-labelledby={`${baseId}-tab-${active}`}
+            className="min-h-[28rem]"
+          >
+            <AnimatePresence mode="wait">
+              <m.div
+                key={active}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.04 } },
+                  exit: { opacity: 0, transition: { duration: 0.2 } },
+                }}
+                className="space-y-12"
+              >
+                {group.sections.map((section) => (
+                  <section key={section.id} aria-labelledby={`${baseId}-${section.id}`}>
+                    <m.h3
+                      id={`${baseId}-${section.id}`}
+                      variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5 } } }}
+                      className="border-b border-ink/25 pb-3 text-xs font-bold tracking-[0.16em] text-ink uppercase rtl:text-base rtl:tracking-normal"
+                    >
+                      {section.title[locale]}
+                    </m.h3>
+                    {section.note ? (
+                      <m.p
+                        variants={{ hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.5 } } }}
+                        className="mt-4 max-w-xl text-sm leading-relaxed text-ink/65"
+                      >
+                        {section.note[locale]}
+                      </m.p>
+                    ) : null}
+                    <ul className="grid grid-cols-1 gap-x-12 md:grid-cols-2">
+                      {section.items.map((item) => (
+                        <m.li
+                          key={item.id}
+                          variants={{
+                            hidden: { opacity: 0, y: 12 },
+                            visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+                          }}
+                          className="border-b border-ink/15 py-5"
+                        >
+                          <div className="flex items-baseline justify-between gap-6">
+                            <h4 className="font-display text-xl font-semibold tracking-[-0.02em] text-ink rtl:tracking-normal">
+                              {item.name[locale]}
+                            </h4>
+                            <p className="shrink-0 text-sm font-bold tracking-wide text-ink tabular-nums">
+                              {formatPrice(item.price)}
+                            </p>
+                          </div>
+                          {item.description ? (
+                            <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/65">
+                              {item.description[locale]}
+                            </p>
+                          ) : null}
+                        </m.li>
+                      ))}
+                    </ul>
+                  </section>
+                ))}
+              </m.div>
+            </AnimatePresence>
+
+            <p className="mt-10 text-xs leading-relaxed text-ink/55">{t.menu.note}</p>
+          </div>
+        </div>
       </div>
     </section>
   );

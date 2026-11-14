@@ -57,7 +57,7 @@ src/
     motion/            MotionProvider, Reveal, StaggerText
     three/             StringsVisual (lazy loader), StringsScene (WebGL)
     ui/                SectionHeading, Isotype
-  data/menu.ts         bilingual menu items and prices (edit here)
+  data/menu.ts         café menu: groups, sections, items and SAR prices (edit here)
   data/site.ts         phone, WhatsApp, maps and online-ordering links
   data/images.ts       every photo on the page, where it is used, and its EN/AR alt text
   i18n/                dictionary (all copy, EN + AR) and LanguageProvider
@@ -71,7 +71,7 @@ public/
 
 ## Content to confirm before launch
 
-- **Menu:** `Assets/MENU.pdf` only contains placeholder copy, so `src/data/menu.ts` holds a curated sample menu. Replace it with the final items and prices.
+- **Menu:** `src/data/menu.ts` holds the café menu (items, Arabic names and SAR prices), transcribed from the bilingual Acoustic Café menu. Update prices there.
 - **Online ordering link:** `ORDER_URL` in `src/data/site.ts`. Every party box and "Order online" button opens it.
 - **Party boxes, catering and client types:** copy lives in `src/i18n/dictionary.ts` (`boxes`, `catering`, `clients`).
 - **Opening hours and phone:** `visit.hours` in the dictionary, and `src/data/site.ts`.

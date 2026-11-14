@@ -1,6 +1,6 @@
 /**
- * Read-only menu data. The supplied MENU.pdf only contains layout placeholders,
- * so these items are a curated starting point. Edit names, copy and prices here.
+ * Read-only café menu, transcribed from the bilingual Acoustic Café menu.
+ * Groups follow the menu's pages, sections follow its headings. Prices in SAR.
  */
 
 type Localized = { en: string; ar: string };
@@ -8,198 +8,186 @@ type Localized = { en: string; ar: string };
 export type MenuItem = {
   id: string;
   name: Localized;
-  description: Localized;
   price: number;
-  signature?: boolean;
+  description?: Localized;
 };
 
-export type MenuCategoryId = "bakery" | "patisserie" | "drinks";
-
-export type MenuCategory = {
-  id: MenuCategoryId;
+export type MenuSection = {
+  id: string;
+  title: Localized;
+  note?: Localized;
   items: MenuItem[];
 };
 
-export const menu: MenuCategory[] = [
+export type MenuGroup = {
+  id: string;
+  title: Localized;
+  sections: MenuSection[];
+};
+
+const item = (id: string, en: string, ar: string, price: number, description?: Localized): MenuItem => ({
+  id,
+  name: { en, ar },
+  price,
+  ...(description ? { description } : {}),
+});
+
+export const menu: MenuGroup[] = [
   {
     id: "bakery",
-    items: [
+    title: { en: "Bakery & healthy breakfast", ar: "المخبوزات والإفطار الصحي" },
+    sections: [
       {
-        id: "sourdough",
-        name: { en: "Country Sourdough", ar: "خبز العجين المخمّر" },
-        description: {
-          en: "48-hour naturally leavened loaf with a deep, blistered crust.",
-          ar: "رغيف مخمّر طبيعيًا لمدة 48 ساعة بقشرة ذهبية عميقة.",
-        },
-        price: 32,
-        signature: true,
+        id: "specialities",
+        title: { en: "Acoustic Bakery Specialities", ar: "مخبوزات أكوستك المميزة" },
+        items: [
+          item("plain-croissant", "Plain Croissant", "كرواسون سادة", 12),
+          item("zaatar-croissant", "Za’atar Croissant", "كرواسون بالزعتر", 15),
+          item("cheese-croissant", "Cheese Croissant", "كرواسون بالجبن", 16),
+          item("cinnamon-roll", "Cinnamon Roll", "لفائف القرفة", 15),
+          item("cardamom-roll", "Cardamom Roll", "لفائف الهيل", 16),
+        ],
       },
       {
-        id: "croissant",
-        name: { en: "Butter Croissant", ar: "كرواسون بالزبدة" },
-        description: {
-          en: "Hand-laminated with cultured French butter, 27 delicate layers.",
-          ar: "مطويّ يدويًا بالزبدة الفرنسية المخمّرة، 27 طبقة رقيقة.",
-        },
-        price: 14,
-        signature: true,
-      },
-      {
-        id: "pain-au-chocolat",
-        name: { en: "Pain au Chocolat", ar: "بان أو شوكولا" },
-        description: {
-          en: "Flaky pastry folded around two bars of dark Valrhona chocolate.",
-          ar: "عجينة هشّة ملفوفة حول قطعتين من شوكولاتة فالرونا الداكنة.",
-        },
-        price: 16,
-      },
-      {
-        id: "baguette",
-        name: { en: "Traditional Baguette", ar: "باغيت تقليدي" },
-        description: {
-          en: "Crackling crust, open crumb, baked fresh throughout the day.",
-          ar: "قشرة مقرمشة ولبّ هشّ، يُخبز طازجًا طوال اليوم.",
-        },
-        price: 12,
-      },
-      {
-        id: "zaatar-croissant",
-        name: { en: "Za'atar & Labneh Croissant", ar: "كرواسون زعتر ولبنة" },
-        description: {
-          en: "Our croissant filled with whipped labneh, wild za'atar and olive oil.",
-          ar: "كرواسوننا محشو باللبنة المخفوقة والزعتر البري وزيت الزيتون.",
-        },
-        price: 19,
-      },
-      {
-        id: "cardamom-bun",
-        name: { en: "Cardamom Knot", ar: "عقدة الهيل" },
-        description: {
-          en: "Soft brioche twisted with cardamom sugar and a hint of saffron.",
-          ar: "بريوش طري ملتف بسكر الهيل مع لمسة من الزعفران.",
-        },
-        price: 15,
+        id: "healthy-breakfast",
+        title: { en: "Healthy Breakfast", ar: "الإفطار الصحي" },
+        items: [
+          item("yogurt-parfait", "Greek Yogurt & Granola Parfait", "بارفيه الزبادي اليوناني والغرانولا", 29),
+          item("english-muffin", "English Muffin with Eggs & Cheese", "مافن إنجليزي بالبيض والجبن", 28),
+          item("acai-bowl", "Açaí Power Bowl", "وعاء الآساي", 32),
+        ],
       },
     ],
   },
   {
-    id: "patisserie",
-    items: [
+    id: "pancakes",
+    title: { en: "Pancakes & sandwiches", ar: "البانكيك والساندويتشات" },
+    sections: [
       {
-        id: "pistachio-tart",
-        name: { en: "Pistachio Rose Tart", ar: "تارت الفستق والورد" },
-        description: {
-          en: "Sablé shell, pistachio cream and a whisper of Taif rose.",
-          ar: "قاعدة سابليه وكريمة الفستق مع لمسة من ورد الطائف.",
-        },
-        price: 34,
-        signature: true,
+        id: "pancakes-french-toast",
+        title: { en: "Pancakes & French Toast", ar: "البانكيك والفرنش توست" },
+        items: [
+          item("classic-pancakes", "Classic Pancakes", "بانكيك كلاسيك", 32),
+          item("granola-pancakes", "Granola Pancakes", "بانكيك بالغرانولا", 35),
+          item("arabian-pancake", "Arabian Pancake with Za’atar & Feta", "بانكيك عربي بالزعتر وجبن الفيتا", 39),
+          item("classic-french-toast", "Classic French Toast", "فرنش توست كلاسيك", 32),
+          item("cornflake-french-toast", "Cornflake French Toast", "فرنش توست بالكورن فليكس", 34),
+        ],
       },
       {
-        id: "dates-entremet",
-        name: { en: "Sukkari Date Entremet", ar: "إنتروميه تمر السكري" },
-        description: {
-          en: "Layered date caramel, vanilla mousse and almond dacquoise.",
-          ar: "طبقات من كراميل التمر وموس الفانيليا وداكواز اللوز.",
+        id: "sandwiches",
+        title: { en: "Sandwiches", ar: "الساندويتشات" },
+        note: {
+          en: "Choose fresh homemade focaccia or our fresh oven-baked Italian fold.",
+          ar: "اختيارك من الفوكاتشيا المحضّرة لدينا أو الخبز الإيطالي المطوي والمخبوز طازجاً في الفرن.",
         },
-        price: 38,
-        signature: true,
-      },
-      {
-        id: "lemon-tart",
-        name: { en: "Lemon Meringue Tart", ar: "تارت الليمون بالميرينغ" },
-        description: {
-          en: "Bright lemon curd beneath torched Italian meringue.",
-          ar: "كريمة ليمون منعشة تحت ميرينغ إيطالي محمّص.",
-        },
-        price: 29,
-      },
-      {
-        id: "mille-feuille",
-        name: { en: "Vanilla Mille-Feuille", ar: "ميل فوي الفانيليا" },
-        description: {
-          en: "Caramelised puff pastry and Madagascan vanilla crème diplomate.",
-          ar: "عجينة منفوخة مكرملة مع كريمة ديبلومات بفانيليا مدغشقر.",
-        },
-        price: 32,
-      },
-      {
-        id: "chocolate-cookie",
-        name: { en: "Brown Butter Cookie", ar: "كوكيز الزبدة المحمّصة" },
-        description: {
-          en: "Chewy centre, crisp edges, dark chocolate and sea salt flakes.",
-          ar: "قلب طري وأطراف مقرمشة مع شوكولاتة داكنة ورقائق ملح البحر.",
-        },
-        price: 13,
-      },
-      {
-        id: "canele",
-        name: { en: "Canelé de Bordeaux", ar: "كانيليه بوردو" },
-        description: {
-          en: "Caramelised shell with a tender vanilla custard heart.",
-          ar: "قشرة مكرملة وقلب كاسترد طري بنكهة الفانيليا.",
-        },
-        price: 12,
+        items: [
+          item("tuna-avocado", "Tuna & Avocado", "تونة وأفوكادو", 36),
+          item("halloumi-bliss", "Halloumi Bliss", "حلوم بليس", 36),
+          item("chicken-caesar", "Chicken Caesar", "دجاج سيزر", 37),
+          item("egg-ham", "Egg & Ham", "بيض وهام", 29),
+          item("chicken-pesto", "Chicken Pesto", "دجاج بالبيستو", 37),
+        ],
       },
     ],
   },
   {
-    id: "drinks",
-    items: [
+    id: "coffee",
+    title: { en: "Coffee & healthy drinks", ar: "القهوة والمشروبات الصحية" },
+    sections: [
       {
-        id: "flat-white",
-        name: { en: "Flat White", ar: "فلات وايت" },
-        description: {
-          en: "Double ristretto of our house espresso with silky steamed milk.",
-          ar: "جرعة ريستريتو مزدوجة من إسبريسو المنزل مع حليب مخملي.",
-        },
-        price: 19,
+        id: "protein-drinks",
+        title: { en: "High Energy Protein Drinks", ar: "مشروبات البروتين عالية الطاقة" },
+        items: [
+          item("vanilla-protein", "Vanilla Protein Drink", "مشروب البروتين بالفانيليا", 27),
+          item("chocolate-protein", "Chocolate Protein Drink", "مشروب البروتين بالشوكولاتة", 28),
+        ],
       },
       {
-        id: "v60",
-        name: { en: "V60 Pour Over", ar: "في 60 بالتقطير" },
-        description: {
-          en: "Single-origin beans, rotating weekly, brewed slowly by hand.",
-          ar: "حبوب أحادية المصدر تتغير أسبوعيًا، تُحضّر يدويًا وببطء.",
-        },
-        price: 24,
-        signature: true,
+        id: "coffee-bar",
+        title: { en: "Coffee Bar", ar: "ركن القهوة" },
+        items: [
+          item("spanish-latte", "Flavored Spanish Latte", "سبانش لاتيه بالنكهات", 16),
+          item("v60", "Specialty V60", "قهوة مختصة V60", 15),
+          item("matcha-latte", "Matcha Latte", "ماتشا لاتيه", 19),
+          item("caffe-latte", "Caffè Latte", "كافيه لاتيه", 16),
+          item("cappuccino", "Cappuccino", "كابتشينو", 16),
+          item("double-espresso", "Double Espresso", "إسبريسو دبل", 11),
+          item("flat-white", "Flat White", "فلات وايت", 16),
+          item("cortado", "Cortado", "كورتادو", 16),
+          item("mocha", "Mocha", "موكا", 15),
+          item("americano", "Americano", "أمريكانو", 13),
+          item("turkish-coffee", "Turkish Coffee", "قهوة تركية", 14),
+          item("hot-chocolate", "Hot Chocolate", "شوكولاتة ساخنة", 15),
+          item("coffee-of-the-day", "Coffee of the Day", "قهوة اليوم", 12),
+        ],
+      },
+    ],
+  },
+  {
+    id: "tea",
+    title: { en: "Tea & cold drinks", ar: "الشاي والمشروبات الباردة" },
+    sections: [
+      {
+        id: "tea",
+        title: { en: "Tea", ar: "الشاي" },
+        items: [
+          item("dilmah-tea", "Dilmah Tea", "شاي ديلما", 8, {
+            en: "Earl Grey, green tea or English breakfast",
+            ar: "إيرل غراي، شاي أخضر أو شاي الإفطار الإنجليزي",
+          }),
+          item("moroccan-tea", "Moroccan Tea for Two", "شاي مغربي لشخصين", 16),
+          item("chai-karak", "Chai Karak", "شاي كرك", 12),
+        ],
       },
       {
-        id: "saudi-coffee",
-        name: { en: "Saudi Coffee", ar: "قهوة سعودية" },
-        description: {
-          en: "Lightly roasted with cardamom and saffron, served with dates.",
-          ar: "محمّصة تحميصًا خفيفًا بالهيل والزعفران، تُقدَّم مع التمر.",
-        },
-        price: 22,
+        id: "juices",
+        title: { en: "Juices & Coolers", ar: "العصائر والمشروبات المنعشة" },
+        items: [
+          item("hibiscus", "Hibiscus", "كركديه", 19),
+          item("zest-on-the-beach", "Zest on the Beach", "زيست أون ذا بيتش", 15),
+          item("tropical-delight", "Tropical Delight", "تروبيكال ديلايت", 19),
+          item("very-berry", "Very Berry", "فيري بيري", 19),
+          item("pina-colada", "Piña Colada", "بينا كولادا", 19),
+        ],
       },
       {
-        id: "spanish-latte",
-        name: { en: "Spanish Latte", ar: "سبانش لاتيه" },
-        description: {
-          en: "Espresso, condensed milk and fresh milk, served hot or iced.",
-          ar: "إسبريسو مع الحليب المكثف والحليب الطازج، ساخن أو مثلّج.",
-        },
-        price: 21,
+        id: "soft-drinks",
+        title: { en: "Soft Drinks & Water", ar: "المشروبات الغازية والمياه" },
+        items: [
+          item("still-water", "Still Water", "مياه معدنية", 5),
+          item("soft-drinks", "Pepsi, 7UP or Cola", "بيبسي، سفن أب أو كولا", 5),
+          item("sparkling-water", "Sparkling Water", "مياه غازية", 7),
+          item("ginger-ale", "Ginger Ale", "جينجر إيل", 7),
+        ],
       },
+    ],
+  },
+  {
+    id: "desserts",
+    title: { en: "Desserts", ar: "الحلويات" },
+    sections: [
       {
-        id: "matcha",
-        name: { en: "Ceremonial Matcha", ar: "ماتشا فاخرة" },
-        description: {
-          en: "Stone-ground Uji matcha whisked with your choice of milk.",
-          ar: "ماتشا أوجي مطحونة بالحجر تُخفق مع الحليب الذي تختاره.",
-        },
-        price: 24,
-      },
-      {
-        id: "hot-chocolate",
-        name: { en: "Signature Hot Chocolate", ar: "شوكولاتة ساخنة مميزة" },
-        description: {
-          en: "Melted 70% dark chocolate, steamed milk and a touch of sea salt.",
-          ar: "شوكولاتة داكنة 70% مذابة مع حليب ساخن ولمسة من ملح البحر.",
-        },
-        price: 23,
+        id: "desserts",
+        title: { en: "Desserts", ar: "الحلويات" },
+        items: [
+          item("san-sebastian", "San Sebastián Cheesecake", "تشيز كيك سان سيباستيان", 25, {
+            en: "A creamy cheesecake with a deeply browned top.",
+            ar: "تشيز كيك كريمي بسطح محمّر غني.",
+          }),
+          item("brulee-cheesecake", "Brûlée Cheesecake", "تشيز كيك بروليه", 25, {
+            en: "Topped with caramelized sugar.",
+            ar: "مغطى بطبقة من السكر المكرمل.",
+          }),
+          item("honey-cake", "Russian Honey Cake", "كيكة العسل الروسية", 25, {
+            en: "Thin cake layers filled with honey cream.",
+            ar: "طبقات رقيقة من الكيك محشوة بكريمة العسل.",
+          }),
+          item("brownie-lovers", "Brownie Lovers", "براوني لافرز", 17, {
+            en: "Chocolate, tahini or white chocolate.",
+            ar: "شوكولاتة، طحينة أو شوكولاتة بيضاء.",
+          }),
+        ],
       },
     ],
   },

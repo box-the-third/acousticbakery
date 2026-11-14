@@ -97,13 +97,7 @@ const en = {
     title: "Made fresh, every morning.",
     body: "A seasonal selection from our ovens and our bar. Menu items and prices may change with the season.",
     currency: "SAR",
-    signature: "Signature",
-    note: "All prices in Saudi Riyal and inclusive of VAT. Please ask our team about allergens.",
-    categories: {
-      bakery: "Bakery",
-      patisserie: "Pâtisserie",
-      drinks: "Drinks",
-    },
+    note: "Prices in SAR.",
   },
   boxes: {
     eyebrow: "Party Boxes",
@@ -331,13 +325,7 @@ const ar: Dictionary = {
     title: "طازج، كل صباح.",
     body: "تشكيلة موسمية من أفراننا ومن ركن القهوة. قد تتغير الأصناف والأسعار بحسب الموسم.",
     currency: "ر.س",
-    signature: "مميّز",
-    note: "جميع الأسعار بالريال السعودي وتشمل ضريبة القيمة المضافة. يُرجى سؤال فريقنا عن مسببات الحساسية.",
-    categories: {
-      bakery: "المخبوزات",
-      patisserie: "الحلويات",
-      drinks: "المشروبات",
-    },
+    note: "الأسعار بالريال السعودي.",
   },
   boxes: {
     eyebrow: "صناديق المناسبات",
