@@ -56,7 +56,7 @@ export function GET() {
       if (section.note) add(section.note.en);
       for (const item of section.items) {
         const description = item.description ? `. ${item.description.en}` : "";
-        add(`- ${item.name.en} (${item.name.ar}): SAR ${item.price}${description}`);
+        add(`- ${item.name.en} (${item.name.ar}): SAR ${item.price}, ~${item.calories} kcal${description}`);
       }
     }
   }

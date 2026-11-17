@@ -97,7 +97,8 @@ const en = {
     title: "Made fresh, every morning.",
     body: "A seasonal selection from our ovens and our bar. Menu items and prices may change with the season.",
     currency: "SAR",
-    note: "Prices in SAR.",
+    calories: "kcal",
+    note: "Prices in SAR. Calories are approximate, per serving. Adults need around 2,000 calories a day.",
   },
   boxes: {
     eyebrow: "Party Boxes",
@@ -111,7 +112,7 @@ const en = {
       { title: "Choose your box", body: "Sweet, savoury, or a little of everything." },
       { title: "Pick a time", body: "Order ahead for the day and hour you need it." },
       { title: "Collect or deliver", body: "Pick up in Al Olaya or have it brought to you." },
-    ],
+    ],
   },
   details: {
     eyebrow: "The Details",
@@ -311,7 +312,8 @@ const ar: Dictionary = {
     title: "طازج، كل صباح.",
     body: "تشكيلة موسمية من أفراننا ومن ركن القهوة. قد تتغير الأصناف والأسعار بحسب الموسم.",
     currency: "ر.س",
-    note: "الأسعار بالريال السعودي.",
+    calories: "سعرة حرارية",
+    note: "الأسعار بالريال السعودي. السعرات الحرارية تقريبية لكل حصة. يحتاج البالغون في المتوسط إلى 2,000 سعرة حرارية يومياً.",
   },
   boxes: {
     eyebrow: "صناديق المناسبات",
@@ -325,7 +327,7 @@ const ar: Dictionary = {
       { title: "اختر صندوقك", body: "حلو أو مالح أو قليل من كل شيء." },
       { title: "حدد الوقت", body: "اطلب مسبقًا لليوم والساعة التي تريدها." },
       { title: "استلام أو توصيل", body: "استلمه من العليا أو نوصله إليك." },
-    ],
+    ],
   },
   details: {
     eyebrow: "التفاصيل",

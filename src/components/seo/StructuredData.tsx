@@ -58,6 +58,7 @@ export function StructuredData() {
             name: item.name.en,
             alternateName: item.name.ar,
             ...(item.description ? { description: item.description.en } : {}),
+            nutrition: { "@type": "NutritionInformation", calories: `${item.calories} calories` },
             offers: { "@type": "Offer", price: item.price.toFixed(2), priceCurrency: "SAR" },
           })),
         ),

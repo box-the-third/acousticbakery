@@ -9,6 +9,8 @@ export type MenuItem = {
   id: string;
   name: Localized;
   price: number;
+  /** Energy per serving, in kcal. */
+  calories: number;
   description?: Localized;
 };
 
@@ -25,12 +27,84 @@ export type MenuGroup = {
   sections: MenuSection[];
 };
 
-const item = (id: string, en: string, ar: string, price: number, description?: Localized): MenuItem => ({
-  id,
-  name: { en, ar },
-  price,
-  ...(description ? { description } : {}),
-});
+/**
+ * Calories per serving (kcal), keyed by item id.
+ * ESTIMATES based on typical café recipes and portion sizes — replace each value
+ * with the figure from the kitchen's own recipe analysis before relying on it.
+ */
+const calories: Record<string, number> = {
+  // Acoustic Bakery Specialities
+  "plain-croissant": 320,
+  "zaatar-croissant": 380,
+  "cheese-croissant": 430,
+  "artisan-croissant": 480,
+  "cinnamon-roll": 420,
+  "cardamom-roll": 400,
+  // Healthy Breakfast
+  "yogurt-parfait": 350,
+  "english-muffin": 380,
+  "acai-bowl": 450,
+  // Pancakes & French Toast
+  "classic-pancakes": 520,
+  "granola-pancakes": 600,
+  "arabian-pancake": 560,
+  "classic-french-toast": 540,
+  "cornflake-french-toast": 620,
+  // Sandwiches
+  "tuna-avocado": 520,
+  "halloumi-bliss": 560,
+  "chicken-caesar": 580,
+  "egg-ham": 450,
+  "chicken-pesto": 590,
+  // High Energy Protein Drinks
+  "vanilla-protein": 280,
+  "chocolate-protein": 300,
+  // Coffee Bar
+  "spanish-latte": 260,
+  v60: 5,
+  "matcha-latte": 190,
+  "caffe-latte": 190,
+  cappuccino: 130,
+  "single-espresso": 3,
+  "double-espresso": 5,
+  "flat-white": 120,
+  cortado: 80,
+  mocha: 290,
+  americano: 10,
+  "turkish-coffee": 15,
+  "hot-chocolate": 300,
+  "coffee-of-the-day": 5,
+  // Tea
+  "dilmah-tea": 2,
+  "moroccan-tea": 160,
+  "chai-karak": 180,
+  // Juices & Coolers
+  hibiscus: 120,
+  "zest-on-the-beach": 150,
+  "tropical-delight": 200,
+  "very-berry": 180,
+  "pina-colada": 280,
+  // Soft Drinks & Water
+  "still-water": 0,
+  "soft-drinks": 150,
+  // Desserts
+  "san-sebastian": 480,
+  "brulee-cheesecake": 460,
+  "honey-cake": 420,
+  "brownie-lovers": 400,
+};
+
+const item = (id: string, en: string, ar: string, price: number, description?: Localized): MenuItem => {
+  const kcal = calories[id];
+  if (kcal === undefined) throw new Error(`Missing calories for menu item "${id}"`);
+  return {
+    id,
+    name: { en, ar },
+    price,
+    calories: kcal,
+    ...(description ? { description } : {}),
+  };
+};
 
 export const menu: MenuGroup[] = [
   {
@@ -44,6 +118,10 @@ export const menu: MenuGroup[] = [
           item("plain-croissant", "Plain Croissant", "كرواسون سادة", 12),
           item("zaatar-croissant", "Za’atar Croissant", "كرواسون بالزعتر", 15),
           item("cheese-croissant", "Cheese Croissant", "كرواسون بالجبن", 16),
+          item("artisan-croissant", "Artisan Croissant", "كرواسون أكوستك المميز", 18, {
+            en: "Filled with rose, chocolate or pistachio.",
+            ar: "محشي بالورد، الشوكولاتة أو الفستق.",
+          }),
           item("cinnamon-roll", "Cinnamon Roll", "لفائف القرفة", 15),
           item("cardamom-roll", "Cardamom Roll", "لفائف الهيل", 16),
         ],
@@ -78,8 +156,8 @@ export const menu: MenuGroup[] = [
         id: "sandwiches",
         title: { en: "Sandwiches", ar: "الساندويتشات" },
         note: {
-          en: "Choose fresh homemade focaccia or our fresh oven-baked Italian fold.",
-          ar: "اختيارك من الفوكاتشيا المحضّرة لدينا أو الخبز الإيطالي المطوي والمخبوز طازجاً في الفرن.",
+          en: "Choose fresh homemade Focaccia or our fresh oven-baked Panuozzo (Fold).",
+          ar: "اختيارك من الفوكاتشيا المحضّرة لدينا أو البانوزو المطوي والمخبوز طازجاً في الفرن.",
         },
         items: [
           item("tuna-avocado", "Tuna & Avocado", "تونة وأفوكادو", 36),
@@ -93,7 +171,7 @@ export const menu: MenuGroup[] = [
   },
   {
     id: "coffee",
-    title: { en: "Coffee & healthy drinks", ar: "القهوة والمشروبات الصحية" },
+    title: { en: "Coffee & Healthy drinks", ar: "القهوة والمشروبات الصحية" },
     sections: [
       {
         id: "protein-drinks",
@@ -112,7 +190,8 @@ export const menu: MenuGroup[] = [
           item("matcha-latte", "Matcha Latte", "ماتشا لاتيه", 19),
           item("caffe-latte", "Caffè Latte", "كافيه لاتيه", 16),
           item("cappuccino", "Cappuccino", "كابتشينو", 16),
-          item("double-espresso", "Double Espresso", "إسبريسو دبل", 11),
+          item("single-espresso", "Single Espresso Shot", "إسبريسو سينجل", 9),
+          item("double-espresso", "Double Espresso", "إسبريسو دبل", 12),
           item("flat-white", "Flat White", "فلات وايت", 16),
           item("cortado", "Cortado", "كورتادو", 16),
           item("mocha", "Mocha", "موكا", 15),
@@ -157,8 +236,6 @@ export const menu: MenuGroup[] = [
         items: [
           item("still-water", "Still Water", "مياه معدنية", 5),
           item("soft-drinks", "Pepsi, 7UP or Cola", "بيبسي، سفن أب أو كولا", 5),
-          item("sparkling-water", "Sparkling Water", "مياه غازية", 7),
-          item("ginger-ale", "Ginger Ale", "جينجر إيل", 7),
         ],
       },
     ],

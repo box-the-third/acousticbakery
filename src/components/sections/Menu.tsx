@@ -144,9 +144,14 @@ export function Menu() {
                             <h4 className="font-display text-xl font-semibold tracking-[-0.02em] text-ink rtl:tracking-normal">
                               {item.name[locale]}
                             </h4>
-                            <p className="shrink-0 text-sm font-bold tracking-wide text-ink tabular-nums">
-                              {formatPrice(item.price)}
-                            </p>
+                            <div className="shrink-0 text-end">
+                              <p className="text-sm font-bold tracking-wide text-ink tabular-nums">
+                                {formatPrice(item.price)}
+                              </p>
+                              <p className="mt-1 text-xs tracking-wide text-ink/55 tabular-nums">
+                                {item.calories} {t.menu.calories}
+                              </p>
+                            </div>
                           </div>
                           {item.description ? (
                             <p className="mt-2 max-w-md text-sm leading-relaxed text-ink/65">
